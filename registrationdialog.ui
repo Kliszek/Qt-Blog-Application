@@ -80,6 +80,12 @@
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <layout class="QGridLayout" name="gridLayout_2">
+        <property name="leftMargin">
+         <number>2</number>
+        </property>
+        <property name="rightMargin">
+         <number>2</number>
+        </property>
         <item row="0" column="0">
          <widget class="QLabel" name="label_3">
           <property name="text">

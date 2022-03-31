@@ -15,7 +15,14 @@ public:
     Dialog(QWidget *parent = nullptr);
     ~Dialog();
 
+private slots:
+    void on_pushButton_3_clicked();
+
+    void on_pushButton_clicked();
+
 private:
     Ui::Dialog *ui;
+
+    bool checkCrudentials();
 };
 #endif // DIALOG_H
