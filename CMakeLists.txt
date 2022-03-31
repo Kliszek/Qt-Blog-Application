@@ -19,6 +19,12 @@ set(PROJECT_SOURCES
         dialog.cpp
         dialog.h
         dialog.ui
+        maindialog.h
+        maindialog.cpp
+        maindialog.ui
+        registrationdialog.h
+        registrationdialog.cpp
+        registrationdialog.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
