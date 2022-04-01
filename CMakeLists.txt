@@ -25,6 +25,12 @@ set(PROJECT_SOURCES
         registrationdialog.h
         registrationdialog.cpp
         registrationdialog.ui
+        user.h
+        user.cpp
+        blogentry.h
+        blogentry.cpp
+        blog.h
+        blog.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
