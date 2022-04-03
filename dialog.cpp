@@ -2,6 +2,7 @@
 #include "./ui_dialog.h"
 #include "registrationdialog.h"
 #include "maindialog.h"
+#include "usermanager.h"
 
 Dialog::Dialog(QWidget *parent)
     : QDialog(parent)
@@ -38,10 +39,20 @@ void Dialog::on_pushButton_clicked()
 
 bool Dialog::checkCrudentials()
 {
+
     if(ui->txtUsername->text() == "admin" && ui->txtPassword->text() == "admin")
     {
         return true;
     }
-    return false;
+
+    QString password = UserManager::getPassword(ui->txtUsername->text());
+
+    if(password != ui->txtPassword->text())
+    {
+        QMessageBox::critical(this, "Error", "Provided password is not correct!");
+        return false;
+    }
+
+    return true;
 }
 

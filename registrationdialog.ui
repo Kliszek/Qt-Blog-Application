@@ -161,6 +161,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>txtEmail</tabstop>
+  <tabstop>txtUsername</tabstop>
+  <tabstop>txtPassword</tabstop>
+  <tabstop>txtPassword_2</tabstop>
+  <tabstop>btnRegister</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

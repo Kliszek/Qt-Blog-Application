@@ -30,6 +30,8 @@ public:
 
     static bool checkAvailability(QString username, QString email);
 
+    static QString getPassword(const QString username);
+
 private:
     static QList<User>* userList;
 

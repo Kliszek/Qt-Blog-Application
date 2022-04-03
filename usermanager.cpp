@@ -110,3 +110,20 @@ bool UserManager::checkAvailability(QString username, QString email)
 
     return true;
 }
+
+QString UserManager::getPassword(const QString username)
+{
+    if(userList == nullptr)
+    {
+        qCritical() << "Trying to check available name, but the user list has not been loaded yet!";
+        return "";
+    }
+
+    for(int i=0; i<userList->size(); i++)
+    {
+        if(userList->at(i).m_username == username)
+            return userList->at(i).m_password;
+    }
+    qCritical() << "User with provided name does not exist!";
+    return "";
+}
