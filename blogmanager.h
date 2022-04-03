@@ -28,6 +28,8 @@ public:
 
     static bool saveBlogs();
 
+    static void addBlog(const Blog& blog);
+
 private:
     static QList<Blog>* blogList;
 

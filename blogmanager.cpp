@@ -99,3 +99,13 @@ bool BlogManager::saveBlogs()
 
     return true;
 }
+
+void BlogManager::addBlog(const Blog &blog)
+{
+    blogList->append(blog);
+
+    if(!saveBlogs())
+    {
+        QMessageBox::critical(nullptr, "Error", "Could not save the blog to the blog file!");
+    }
+}
