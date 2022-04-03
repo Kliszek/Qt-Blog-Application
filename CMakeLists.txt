@@ -33,6 +33,8 @@ set(PROJECT_SOURCES
         blog.cpp
         usermanager.h
         usermanager.cpp
+        blogmanager.h
+        blogmanager.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

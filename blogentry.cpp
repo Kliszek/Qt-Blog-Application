@@ -1,5 +1,12 @@
 #include "blogentry.h"
 
+BlogEntry::BlogEntry(const BlogEntry& blogEntry, QObject *parent)
+{
+    m_title = blogEntry.m_title;
+    m_date = blogEntry.m_date;
+    m_content = blogEntry.m_content;
+}
+
 BlogEntry::BlogEntry(QString title, QDate date, QString content, QObject *parent)
 {
     m_title = title;
@@ -10,4 +17,12 @@ BlogEntry::BlogEntry(QString title, QDate date, QString content, QObject *parent
 BlogEntry::~BlogEntry()
 {
 
+}
+
+BlogEntry &BlogEntry::operator=(const BlogEntry &blogEntry)
+{
+    m_title = blogEntry.m_title;
+    m_date = blogEntry.m_date;
+    m_content = blogEntry.m_content;
+    return *this;
 }

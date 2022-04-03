@@ -2,6 +2,7 @@
 #define MAINDIALOG_H
 
 #include <QDialog>
+#include "blogmanager.h"
 
 namespace Ui {
 class MainDialog;
@@ -14,6 +15,9 @@ class MainDialog : public QDialog
 public:
     explicit MainDialog(QWidget *parent = nullptr);
     ~MainDialog();
+
+private slots:
+    void on_buttonBox_accepted();
 
 private:
     Ui::MainDialog *ui;

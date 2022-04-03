@@ -24,6 +24,8 @@ public:
 
     static QList<User>* getUserList();
 
+    static bool createDirectory(QDir& userDir);
+
     static bool loadUsers();
 
     static bool saveUsers();

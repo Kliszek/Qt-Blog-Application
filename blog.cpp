@@ -1,6 +1,14 @@
 #include "blog.h"
 
-Blog::Blog(int blogId, int ownerId, QString title, QList<BlogEntry *> entryList, QObject *parent)
+Blog::Blog(const Blog& blog, QObject *parent)
+{
+    m_blogId = blog.m_blogId;
+    m_ownerId = blog.m_ownerId;
+    m_title = blog.m_title;
+    m_entryList = blog.m_entryList;
+}
+
+Blog::Blog(int blogId, int ownerId, QString title, QList<BlogEntry>* entryList, QObject *parent)
 {
     m_blogId = blogId;
     m_ownerId = ownerId;
@@ -11,4 +19,31 @@ Blog::Blog(int blogId, int ownerId, QString title, QList<BlogEntry *> entryList,
 Blog::~Blog()
 {
 
+}
+
+Blog &Blog::operator=(const Blog &blog)
+{
+    m_blogId = blog.m_blogId;
+    m_ownerId = blog.m_ownerId;
+    m_title = blog.m_title;
+    m_entryList = blog.m_entryList;
+    return *this;
+}
+
+QJsonObject Blog::toJson() const
+{
+    QJsonArray jsonArr;
+
+    for(int i=0; i< m_entryList->size(); i++)
+    {
+        jsonArr.append( m_entryList->at(i).toJson() );
+    }
+
+    QJsonObject jsonObj;
+    jsonObj.insert("blogId", m_blogId);
+    jsonObj.insert("ownerId", m_ownerId);
+    jsonObj.insert("title", m_title);
+    jsonObj.insert("entrylist", jsonArr);
+
+    return jsonObj;
 }

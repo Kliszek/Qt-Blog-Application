@@ -16,12 +16,10 @@ QList<User>* UserManager::getUserList()
     return userList;
 }
 
-bool UserManager::loadUsers()
+bool UserManager::createDirectory(QDir& userDir)
 {
-    delete userList;
-    userList = new QList<User>();
 
-    QDir userDir = QDir::home();
+    userDir = QDir::home();
 
     if(!userDir.exists("EGUI_Qt_Blog_Application"))
         if(!userDir.mkdir("EGUI_Qt_Blog_Application"))
@@ -30,6 +28,21 @@ bool UserManager::loadUsers()
             return false;
         }
     userDir.cd("EGUI_Qt_Blog_Application");
+
+    return true;
+}
+
+
+
+bool UserManager::loadUsers()
+{
+    delete userList;
+    userList = new QList<User>();
+
+    QDir userDir;
+
+    if(!createDirectory(userDir))
+        return false;
 
     QFile userFile = userDir.absolutePath() + "/users.json";
 
@@ -73,15 +86,10 @@ bool UserManager::saveUsers()
         jsonArr.append(userList->at(i).toJson());
     }
 
-    QDir userDir = QDir::home();
+    QDir userDir;
 
-    if(!userDir.exists("EGUI_Qt_Blog_Application"))
-        if(!userDir.mkdir("EGUI_Qt_Blog_Application"))
-        {
-            QMessageBox::critical(nullptr, "Error", "Could not create a folder for user data!");
-            return false;
-        }
-    userDir.cd("EGUI_Qt_Blog_Application");
+    if(!createDirectory(userDir))
+        return false;
 
     QFile userFile = userDir.absolutePath() + "/users.json";
 

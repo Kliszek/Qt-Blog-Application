@@ -12,3 +12,9 @@ MainDialog::~MainDialog()
 {
     delete ui;
 }
+
+void MainDialog::on_buttonBox_accepted()
+{
+    BlogManager::saveBlogs();
+}
+
