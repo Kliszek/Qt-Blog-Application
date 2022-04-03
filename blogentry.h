@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QString>
-#include <QDate>
+#include <QDateTime>
 #include <QJsonObject>
 
 class BlogEntry : public QObject
@@ -12,7 +12,7 @@ class BlogEntry : public QObject
 public:
     explicit BlogEntry(QObject *parent = nullptr){};
     explicit BlogEntry(const BlogEntry& blogEntry, QObject *parent = nullptr);
-    explicit BlogEntry(QString title, QDate date, QString content, QObject *parent = nullptr);
+    explicit BlogEntry(QString title, QDateTime date, QString content, QObject *parent = nullptr);
     ~BlogEntry();
 
     BlogEntry& operator=(const BlogEntry& blogEntry);
@@ -21,9 +21,8 @@ public:
         return {{"title", m_title}, {"date", m_date.toString()}, {"content", m_content}};
     }
 
-private:
     QString m_title;
-    QDate m_date;
+    QDateTime m_date;
     QString m_content;
 
 signals:

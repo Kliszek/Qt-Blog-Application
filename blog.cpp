@@ -43,7 +43,7 @@ QJsonObject Blog::toJson() const
     jsonObj.insert("blogId", m_blogId);
     jsonObj.insert("ownerId", m_ownerId);
     jsonObj.insert("title", m_title);
-    jsonObj.insert("entrylist", jsonArr);
+    jsonObj.insert("entryList", jsonArr);
 
     return jsonObj;
 }

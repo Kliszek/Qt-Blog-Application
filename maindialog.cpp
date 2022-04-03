@@ -15,6 +15,7 @@ MainDialog::~MainDialog()
 
 void MainDialog::on_buttonBox_accepted()
 {
+    BlogManager::loadBlogs();
     BlogManager::saveBlogs();
 }
 

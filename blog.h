@@ -25,7 +25,6 @@ public:
 
     QList<BlogEntry>* m_entryList;
 
-private:
     int m_blogId;
     int m_ownerId;
     QString m_title;

@@ -7,7 +7,7 @@ BlogEntry::BlogEntry(const BlogEntry& blogEntry, QObject *parent)
     m_content = blogEntry.m_content;
 }
 
-BlogEntry::BlogEntry(QString title, QDate date, QString content, QObject *parent)
+BlogEntry::BlogEntry(QString title, QDateTime date, QString content, QObject *parent)
 {
     m_title = title;
     m_date = date;

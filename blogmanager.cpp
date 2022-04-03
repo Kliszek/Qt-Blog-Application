@@ -10,7 +10,54 @@ BlogManager::BlogManager(QObject *parent)
 
 bool BlogManager::loadBlogs()
 {
+    delete blogList;
+    blogList = new QList<Blog>();
 
+    QDir userDir;
+
+    if(!UserManager::createDirectory(userDir))
+        return false;
+
+    QFile blogFile = userDir.absolutePath() + "/blogs.json";
+
+
+    if(!blogFile.exists())
+        return true;
+
+    blogFile.open(QIODevice::ReadOnly);
+
+    QString blogListJson = blogFile.readAll();
+
+    blogFile.close();
+
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(blogListJson.toUtf8());
+    QJsonArray jsonArr = jsonDoc.array();
+
+    foreach(const QJsonValue& jsonVal, jsonArr)
+    {
+        QJsonObject jsonObj = jsonVal.toObject();
+
+        Blog newBlog;
+        newBlog.m_title = jsonObj["title"].toString();
+        newBlog.m_ownerId = jsonObj["ownerId"].toInt();
+        newBlog.m_blogId = jsonObj["blogId"].toInt();
+        newBlog.m_entryList = new QList<BlogEntry>();
+
+        QJsonArray blogEntries = jsonObj["entryList"].toArray();
+
+        foreach(const QJsonValue& blogEntryJson, blogEntries)
+        {
+            BlogEntry newBlogEntry;
+            newBlogEntry.m_title = blogEntryJson["title"].toString();
+            newBlogEntry.m_content = blogEntryJson["content"].toString();
+            newBlogEntry.m_date = QDateTime::fromString(blogEntryJson["date"].toString());
+            qInfo() << newBlogEntry.toJson();
+            newBlog.m_entryList->append(newBlogEntry);
+        }
+
+        blogList->append(newBlog);
+        qInfo() << newBlog.toJson();
+    }
 
     return true;
 }
@@ -18,19 +65,17 @@ bool BlogManager::loadBlogs()
 bool BlogManager::saveBlogs()
 {
 
-//    BlogEntry be("title123", QDate::currentDate(), "content123456");
-//    BlogEntry be2("title234532", QDate::currentDate(), "fefearf");
+//    BlogEntry be("title123", QDateTime::currentDateTime(), "content123456");
+//    BlogEntry be2("title234532", QDateTime::currentDateTime(), "dodawane");
 
 //    Blog blogTest(123, 4, "blog title", new QList<BlogEntry>());
 
 //    blogTest.m_entryList->append(be);
 //    blogTest.m_entryList->append(be2);
 
-//    blogList = new QList<Blog>();
+//    //blogList = new QList<Blog>();
 
 //    blogList->append(blogTest);
-
-
 
     QJsonArray jsonArr;
 
