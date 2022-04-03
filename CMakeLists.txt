@@ -16,9 +16,9 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
 set(PROJECT_SOURCES
         main.cpp
-        dialog.cpp
-        dialog.h
-        dialog.ui
+        logindialog.cpp
+        logindialog.h
+        logindialog.ui
         maindialog.h
         maindialog.cpp
         maindialog.ui

@@ -1,30 +1,30 @@
-#include "dialog.h"
-#include "./ui_dialog.h"
+#include "logindialog.h"
+#include "./ui_logindialog.h"
 #include "registrationdialog.h"
 #include "maindialog.h"
 #include "usermanager.h"
 
-Dialog::Dialog(QWidget *parent)
+LoginDialog::LoginDialog(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::Dialog)
+    , ui(new Ui::LoginDialog)
 {
     ui->setupUi(this);
 }
 
-Dialog::~Dialog()
+LoginDialog::~LoginDialog()
 {
     delete ui;
 }
 
 
-void Dialog::on_pushButton_3_clicked()
+void LoginDialog::on_btnRegister_clicked()
 {
     RegistrationDialog* regDial = new RegistrationDialog(this);
     regDial->exec();
 }
 
 
-void Dialog::on_pushButton_clicked()
+void LoginDialog::on_btnLogin_clicked()
 {
     if(!checkCrudentials())
     {
@@ -37,7 +37,7 @@ void Dialog::on_pushButton_clicked()
     mainDial->show();
 }
 
-bool Dialog::checkCrudentials()
+bool LoginDialog::checkCrudentials()
 {
 
     if(ui->txtUsername->text() == "admin" && ui->txtPassword->text() == "admin")
