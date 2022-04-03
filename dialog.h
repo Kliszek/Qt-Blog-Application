@@ -2,6 +2,8 @@
 #define DIALOG_H
 
 #include <QDialog>
+#include <QString>
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Dialog; }

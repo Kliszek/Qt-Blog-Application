@@ -2,8 +2,6 @@
 #include "./ui_dialog.h"
 #include "registrationdialog.h"
 #include "maindialog.h"
-#include <QString>
-#include <QMessageBox>
 
 Dialog::Dialog(QWidget *parent)
     : QDialog(parent)
@@ -20,7 +18,7 @@ Dialog::~Dialog()
 
 void Dialog::on_pushButton_3_clicked()
 {
-    registrationDialog* regDial = new registrationDialog(this);
+    RegistrationDialog* regDial = new RegistrationDialog(this);
     regDial->exec();
 }
 
