@@ -103,7 +103,26 @@ bool UserManager::saveUsers()
     return true;
 }
 
-bool UserManager::checkAvailability(QString username, QString email)
+const User* UserManager::getUser(const QString username)
+{
+    if(userList == nullptr)
+    {
+        qCritical() << "Trying to get user by name, but the user list has not been loaded yet!";
+        return nullptr;
+    }
+
+    for(int i=0; i<userList->size(); i++)
+    {
+        if(userList->at(i).m_username == username)
+        {
+            return &userList->at(i);
+        }
+    }
+
+    return nullptr;
+}
+
+bool UserManager::checkAvailability(QString username, QString email, QString id = "")
 {
     if(userList == nullptr)
     {
@@ -113,7 +132,7 @@ bool UserManager::checkAvailability(QString username, QString email)
 
     for(int i=0; i<userList->size(); i++)
     {
-        if(userList->at(i).m_username == username || userList->at(i).m_email == email)
+        if(userList->at(i).m_username == username || userList->at(i).m_email == email || (!id.isEmpty() && userList->at(i).m_id == id))
             return false;
     }
 

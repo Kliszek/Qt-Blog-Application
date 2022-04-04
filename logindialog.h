@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QString>
 #include <QMessageBox>
+#include "user.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class LoginDialog; }
@@ -26,6 +27,6 @@ private slots:
 private:
     Ui::LoginDialog *ui;
 
-    bool checkCrudentials();
+    bool tryLogIn();
 };
 #endif // LOGINDIALOG_H

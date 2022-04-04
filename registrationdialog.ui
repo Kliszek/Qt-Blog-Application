@@ -108,7 +108,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="lineEdit"/>
+         <widget class="QLineEdit" name="txtId"/>
         </item>
         <item row="5" column="1">
          <widget class="QLineEdit" name="txtPassword_2">
@@ -209,7 +209,7 @@
   <connection>
    <sender>checkBox</sender>
    <signal>toggled(bool)</signal>
-   <receiver>lineEdit</receiver>
+   <receiver>txtId</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -219,6 +219,22 @@
     <hint type="destinationlabel">
      <x>368</x>
      <y>219</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>txtId</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>427</x>
+     <y>398</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>440</x>
+     <y>210</y>
     </hint>
    </hints>
   </connection>

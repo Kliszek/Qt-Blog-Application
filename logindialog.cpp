@@ -26,32 +26,31 @@ void LoginDialog::on_btnRegister_clicked()
 
 void LoginDialog::on_btnLogin_clicked()
 {
-    if(!checkCrudentials())
-    {
-        QMessageBox::critical(this, "Could not log in", "Username or login are not correct!");
-        return;
-    }
-
-    MainDialog* mainDial = new MainDialog();
-    this->close();
-    mainDial->show();
+    tryLogIn();
 }
 
-bool LoginDialog::checkCrudentials()
+bool LoginDialog::tryLogIn()
 {
-
-    if(ui->txtUsername->text() == "admin" && ui->txtPassword->text() == "admin")
-    {
-        return true;
-    }
-
     QString password = UserManager::getPassword(ui->txtUsername->text());
+
+    const User* user = UserManager::getUser(ui->txtUsername->text());
+
+    if(user == nullptr)
+    {
+        QMessageBox::critical(this, "Error", "Provided username does not belong to any user!");
+        return false;
+    }
 
     if(password != ui->txtPassword->text())
     {
         QMessageBox::critical(this, "Error", "Provided password is not correct!");
         return false;
     }
+
+    MainDialog* mainDial = new MainDialog(user);
+
+    this->close();
+    mainDial->show();
 
     return true;
 }

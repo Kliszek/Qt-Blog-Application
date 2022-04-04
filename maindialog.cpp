@@ -1,11 +1,10 @@
 #include "maindialog.h"
 #include "ui_maindialog.h"
 
-MainDialog::MainDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::MainDialog)
+MainDialog::MainDialog(const User *user, QWidget *parent) :QDialog(parent), ui(new Ui::MainDialog), m_currentUser(user)
 {
     ui->setupUi(this);
+    ui->txtUsername->setText(m_currentUser->m_username);
 }
 
 MainDialog::~MainDialog()

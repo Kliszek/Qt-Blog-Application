@@ -17,7 +17,7 @@ RegistrationDialog::~RegistrationDialog()
 
 bool RegistrationDialog::validateCredentials()
 {
-    if(!UserManager::checkAvailability(ui->txtUsername->text(), ui->txtEmail->text()))
+    if(!UserManager::checkAvailability(ui->txtUsername->text(), ui->txtEmail->text(), ui->txtId->text()))
     {
         QMessageBox::critical(this, "Error", "This email or username is already in use!");
         return false;
