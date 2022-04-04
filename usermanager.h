@@ -30,7 +30,9 @@ public:
 
     static bool saveUsers();
 
-    static const User* getUser(const QString username);
+    static const User* getUserByName(const QString username);
+
+    static const User* getUserById(const QString id);
 
     static bool checkAvailability(QString username, QString email, QString id);
 

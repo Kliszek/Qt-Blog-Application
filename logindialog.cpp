@@ -3,24 +3,38 @@
 #include "registrationdialog.h"
 #include "maindialog.h"
 #include "usermanager.h"
+#include <QCoreApplication>
+#include <QThread>
+#include <QGuiApplication>
 
-LoginDialog::LoginDialog(QWidget *parent)
+LoginDialog::LoginDialog(const User *loggedUser, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::LoginDialog)
 {
     ui->setupUi(this);
+
+    if(loggedUser == nullptr)
+    {
+        this->show();
+    }
+    else
+    {
+        MainDialog* mainDial = new MainDialog(loggedUser, this);
+        mainDial->show();
+    }
 }
 
 LoginDialog::~LoginDialog()
 {
     delete ui;
+    qInfo() << "Login deconstructed";
 }
 
 
 void LoginDialog::on_btnRegister_clicked()
 {
-    RegistrationDialog* regDial = new RegistrationDialog(this);
-    regDial->exec();
+    RegistrationDialog regDial(this);
+    regDial.exec();
 }
 
 
@@ -29,11 +43,13 @@ void LoginDialog::on_btnLogin_clicked()
     tryLogIn();
 }
 
+
+
 bool LoginDialog::tryLogIn()
 {
     QString password = UserManager::getPassword(ui->txtUsername->text());
 
-    const User* user = UserManager::getUser(ui->txtUsername->text());
+    const User* user = UserManager::getUserByName(ui->txtUsername->text());
 
     if(user == nullptr)
     {
@@ -47,9 +63,17 @@ bool LoginDialog::tryLogIn()
         return false;
     }
 
-    MainDialog* mainDial = new MainDialog(user);
+    if(ui->chkKeepLogged->isChecked())
+    {
+        QSettings settings(QSettings::UserScope);
+        settings.clear();
+        settings.setValue("logged", user->getId());
+    }
+
+    MainDialog* mainDial = new MainDialog(user, this);
 
     this->close();
+
     mainDial->show();
 
     return true;

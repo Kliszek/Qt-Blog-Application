@@ -12,6 +12,7 @@ RegistrationDialog::RegistrationDialog(QWidget *parent) :
 
 RegistrationDialog::~RegistrationDialog()
 {
+    qInfo() << "Registration deconstructed";
     delete ui;
 }
 

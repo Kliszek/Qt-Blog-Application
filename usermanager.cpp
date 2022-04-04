@@ -103,7 +103,7 @@ bool UserManager::saveUsers()
     return true;
 }
 
-const User* UserManager::getUser(const QString username)
+const User* UserManager::getUserByName(const QString username)
 {
     if(userList == nullptr)
     {
@@ -114,6 +114,25 @@ const User* UserManager::getUser(const QString username)
     for(int i=0; i<userList->size(); i++)
     {
         if(userList->at(i).m_username == username)
+        {
+            return &userList->at(i);
+        }
+    }
+
+    return nullptr;
+}
+
+const User *UserManager::getUserById(const QString id)
+{
+    if(userList == nullptr)
+    {
+        qCritical() << "Trying to get user by id, but the user list has not been loaded yet!";
+        return nullptr;
+    }
+
+    for(int i=0; i<userList->size(); i++)
+    {
+        if(userList->at(i).m_id == id)
         {
             return &userList->at(i);
         }

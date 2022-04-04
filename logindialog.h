@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QString>
 #include <QMessageBox>
+#include <QSettings>
 #include "user.h"
 
 QT_BEGIN_NAMESPACE
@@ -15,7 +16,7 @@ class LoginDialog : public QDialog
     Q_OBJECT
 
 public:
-    LoginDialog(QWidget *parent = nullptr);
+    LoginDialog(const User* loggedUser = nullptr, QWidget *parent = nullptr);
     ~LoginDialog();
 
 private slots:
@@ -28,5 +29,6 @@ private:
     Ui::LoginDialog *ui;
 
     bool tryLogIn();
+
 };
 #endif // LOGINDIALOG_H

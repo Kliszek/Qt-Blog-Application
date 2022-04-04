@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QString>
+#include <QSettings>
 #include "blogmanager.h"
 #include "user.h"
 
@@ -23,7 +24,8 @@ private:
     Ui::MainDialog *ui;
 
 private slots:
-    void on_buttonBox_accepted();
+    void on_btnBox_accepted();
+    void on_btnBox_rejected();
 };
 
 #endif // MAINDIALOG_H

@@ -9,12 +9,23 @@ MainDialog::MainDialog(const User *user, QWidget *parent) :QDialog(parent), ui(n
 
 MainDialog::~MainDialog()
 {
+    qInfo() << "Main window deconstructed";
     delete ui;
 }
 
-void MainDialog::on_buttonBox_accepted()
+void MainDialog::on_btnBox_accepted()
 {
     BlogManager::loadBlogs();
     BlogManager::saveBlogs();
+}
+
+
+void MainDialog::on_btnBox_rejected()
+{
+    QSettings settings(QSettings::UserScope);
+    settings.clear();
+    this->close();
+    this->parentWidget()->show();
+    delete(this);
 }
 

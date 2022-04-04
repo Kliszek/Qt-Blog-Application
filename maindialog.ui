@@ -430,7 +430,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
+    <widget class="QDialogButtonBox" name="btnBox">
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
@@ -447,8 +447,8 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>574</x>
-     <y>435</y>
+     <x>573</x>
+     <y>442</y>
     </hint>
     <hint type="destinationlabel">
      <x>460</x>
