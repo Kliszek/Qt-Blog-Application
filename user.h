@@ -19,10 +19,7 @@ public:
     explicit User(QString id, QString email, QString username, QString password, QObject *parent = nullptr);
     ~User();
     User& operator=(const User& user);
-    static int userCount;
 
-    static QList<User>* userList;
-    static QList<User>* getUserList() {return userList;}
 
     QJsonObject toJson() const {
         return {{"id", m_id}, {"email", m_email}, {"username", m_username}, {"password", m_password}};

@@ -7,6 +7,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QSharedPointer>
 #include "blogentry.h"
 
 class Blog : public QObject
@@ -26,7 +27,9 @@ public:
     QJsonObject toJson() const;
 
 
-    QList<BlogEntry>* m_entryList;
+    //QSharedPointer will prevent memory leaks
+    //It automatically deletes the memory, but onlu if there are no other pointers referencing it
+    QSharedPointer< QList<BlogEntry> > m_entryList;
 
     QString m_ownerId;
     QString m_title;

@@ -41,7 +41,7 @@ bool BlogManager::loadBlogs()
         newBlog.m_title = jsonObj["title"].toString();
         newBlog.m_ownerId = jsonObj["ownerId"].toString();
         newBlog.m_blogId = jsonObj["blogId"].toString();
-        newBlog.m_entryList = new QList<BlogEntry>();
+        newBlog.m_entryList = QSharedPointer< QList<BlogEntry> >(new QList<BlogEntry>());
 
         QJsonArray blogEntries = jsonObj["entryList"].toArray();
 
@@ -51,12 +51,12 @@ bool BlogManager::loadBlogs()
             newBlogEntry.m_title = blogEntryJson["title"].toString();
             newBlogEntry.m_content = blogEntryJson["content"].toString();
             newBlogEntry.m_date = QDateTime::fromString(blogEntryJson["date"].toString());
-            qInfo() << newBlogEntry.toJson();
+            //qInfo() << newBlogEntry.toJson();
             newBlog.m_entryList->append(newBlogEntry);
         }
 
         blogList->append(newBlog);
-        qInfo() << newBlog.toJson();
+        //qInfo() << newBlog.toJson();
     }
 
     return true;
@@ -76,6 +76,7 @@ bool BlogManager::saveBlogs()
 //    //blogList = new QList<Blog>();
 
 //    blogList->append(blogTest);
+//    blogList->pop_back();
 
     QJsonArray jsonArr;
 

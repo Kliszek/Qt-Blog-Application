@@ -21,7 +21,7 @@ Blog::Blog(QString blogId, QString ownerId, QString title, QList<BlogEntry>* ent
     m_blogId = blogId;
     m_ownerId = ownerId;
     m_title = title;
-    m_entryList = entryList;
+    m_entryList = QSharedPointer< QList<BlogEntry> >(entryList);
 }
 
 Blog::~Blog()

@@ -16,7 +16,8 @@ BlogEntry::BlogEntry(QString title, QDateTime date, QString content, QObject *pa
 
 BlogEntry::~BlogEntry()
 {
-
+//    qInfo() << "Deconstructed BlogEntry:";
+//    qInfo() << m_title + " " + m_content;
 }
 
 BlogEntry &BlogEntry::operator=(const BlogEntry &blogEntry)
