@@ -33,7 +33,7 @@ bool RegistrationDialog::validateCredentials()
 
 void RegistrationDialog::on_btnRegister_clicked()
 {
-    User newUser;
+    User newUser(true);
     newUser.m_username = ui->txtUsername->text();
     newUser.m_email = ui->txtEmail->text();
     newUser.m_password = ui->txtPassword->text();

@@ -1,5 +1,13 @@
 #include "blog.h"
 
+Blog::Blog(bool generateId, QObject *parent)
+{
+    if(generateId)
+    {
+        m_blogId = QUuid::createUuid().toString(QUuid::Id128);
+    }
+}
+
 Blog::Blog(const Blog& blog, QObject *parent)
 {
     m_blogId = blog.m_blogId;
@@ -8,7 +16,7 @@ Blog::Blog(const Blog& blog, QObject *parent)
     m_entryList = blog.m_entryList;
 }
 
-Blog::Blog(int blogId, int ownerId, QString title, QList<BlogEntry>* entryList, QObject *parent)
+Blog::Blog(QString blogId, QString ownerId, QString title, QList<BlogEntry>* entryList, QObject *parent)
 {
     m_blogId = blogId;
     m_ownerId = ownerId;
@@ -46,4 +54,9 @@ QJsonObject Blog::toJson() const
     jsonObj.insert("entryList", jsonArr);
 
     return jsonObj;
+}
+
+const QString &Blog::getBlogId() const
+{
+    return m_blogId;
 }

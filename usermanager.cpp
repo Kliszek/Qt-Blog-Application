@@ -70,6 +70,7 @@ bool UserManager::loadUsers()
         newUser.m_username = jsonObj["username"].toString();
         newUser.m_email = jsonObj["email"].toString();
         newUser.m_password = jsonObj["password"].toString();
+        newUser.m_id = jsonObj["id"].toString();
 
         userList->append(newUser);
     }

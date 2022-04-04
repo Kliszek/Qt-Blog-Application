@@ -12,10 +12,13 @@
 class Blog : public QObject
 {
     Q_OBJECT
+
+friend class BlogManager;
+
 public:
-    explicit Blog(QObject *parent = nullptr){};
+    explicit Blog(bool generateId = false, QObject *parent = nullptr);
     explicit Blog(const Blog& blog, QObject *parent = nullptr);
-    explicit Blog(int blogId, int ownerId, QString title, QList<BlogEntry>* entryList, QObject *parent = nullptr);
+    explicit Blog(QString blogId, QString ownerId, QString title, QList<BlogEntry>* entryList, QObject *parent = nullptr);
     ~Blog();
     Blog& operator=(const Blog& blog);
 
@@ -25,9 +28,13 @@ public:
 
     QList<BlogEntry>* m_entryList;
 
-    int m_blogId;
-    int m_ownerId;
+    QString m_ownerId;
     QString m_title;
+
+    const QString &getBlogId() const;
+
+private:
+    QString m_blogId;
 
 signals:
 
