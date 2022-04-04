@@ -10,10 +10,15 @@
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setOrganizationName("EGUI Jakub Kliszko");
+    QCoreApplication::setApplicationName("EGUI Qt Blog Application");
+
     QApplication a(argc, argv);
     QSettings::setDefaultFormat(QSettings::IniFormat);
 
     UserManager::loadUsers();
+
+    qInfo() << QCoreApplication::applicationName();
 
     QSettings settings(QSettings::UserScope);
     QString currentlyLogged = settings.value("logged", "").toString();
