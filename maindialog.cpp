@@ -72,6 +72,7 @@ void MainDialog::updateBlogList()
     QList<Blog>* blogList = BlogManager::getBlogList();
     ui->lstBlogList->clear();
     ui->cmbBlogList->clear();
+    ui->lstAllBlogs->clear();
 
     for(int i=0; i<blogList->size(); i++)
     {
@@ -86,9 +87,22 @@ void MainDialog::updateBlogList()
     {
         ui->lstBlogList->addItem("<you have no blogs>");
         ui->cmbBlogList->addItem("<you have no blogs>");
+        ui->cmbBlogList->setEnabled(false);
+        ui->lstBlogList->setEnabled(false);
         if(ui->lstAllBlogs->count() == 0)
+        {
             ui->lstAllBlogs->addItem("<there are no blogs to display>");
+            ui->lstAllBlogs->setEnabled(false);
+        }
+        else
+            ui->lstAllBlogs->setEnabled(true);
     }
+    else
+    {
+        ui->cmbBlogList->setEnabled(true);
+        ui->lstBlogList->setEnabled(true);
+    }
+
     ui->tabWidget->setCurrentIndex(1);
 }
 
