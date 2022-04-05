@@ -105,7 +105,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
@@ -588,6 +588,21 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>lstAllBlogs</tabstop>
+  <tabstop>scrollArea_2</tabstop>
+  <tabstop>lstBlogList</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>cmbBlogList</tabstop>
+  <tabstop>txtEntryTitle</tabstop>
+  <tabstop>txtEntryContent</tabstop>
+  <tabstop>btnCreateEntry</tabstop>
+  <tabstop>txtId</tabstop>
+  <tabstop>txtBlogTitle</tabstop>
+  <tabstop>chkAutoId</tabstop>
+  <tabstop>btnCreateBlog</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

@@ -177,6 +177,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>txtUsername</tabstop>
+  <tabstop>txtPassword</tabstop>
+  <tabstop>btnLogin</tabstop>
+  <tabstop>chkKeepLogged</tabstop>
+  <tabstop>btnRegister</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

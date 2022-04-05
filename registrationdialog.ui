@@ -202,10 +202,12 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>txtId</tabstop>
   <tabstop>txtEmail</tabstop>
   <tabstop>txtUsername</tabstop>
   <tabstop>txtPassword</tabstop>
   <tabstop>txtPassword_2</tabstop>
+  <tabstop>chkAutoId</tabstop>
   <tabstop>btnRegister</tabstop>
  </tabstops>
  <resources/>
