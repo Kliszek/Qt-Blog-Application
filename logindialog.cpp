@@ -40,12 +40,12 @@ void LoginDialog::on_btnRegister_clicked()
 
 void LoginDialog::on_btnLogin_clicked()
 {
-    tryLogIn();
+    tryLogin();
 }
 
 
 
-bool LoginDialog::tryLogIn()
+bool LoginDialog::tryLogin()
 {
     QString password = UserManager::getPassword(ui->txtUsername->text());
 

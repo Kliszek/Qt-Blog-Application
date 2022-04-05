@@ -14,6 +14,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QUuid>
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
 
@@ -31,6 +32,8 @@ public:
 
 private slots:
     void on_btnRegister_clicked();
+
+    void on_chkAutoId_toggled(bool checked);
 
 private:
     Ui::RegistrationDialog *ui;

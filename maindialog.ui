@@ -105,7 +105,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -241,7 +241,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="btnCreateEntry">
            <property name="text">
             <string>Create entry</string>
            </property>
@@ -285,7 +285,7 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_2">
          <item row="2" column="2">
-          <widget class="QLineEdit" name="lineEdit_2"/>
+          <widget class="QLineEdit" name="txtBlogTitle"/>
          </item>
          <item row="2" column="0">
           <spacer name="horizontalSpacer_2">
@@ -308,7 +308,7 @@
           </widget>
          </item>
          <item row="0" column="2">
-          <widget class="QLineEdit" name="lineEdit_3"/>
+          <widget class="QLineEdit" name="txtId"/>
          </item>
          <item row="2" column="1">
           <widget class="QLabel" name="label_7">
@@ -357,7 +357,7 @@
           </spacer>
          </item>
          <item row="4" column="2">
-          <widget class="QCheckBox" name="checkBox">
+          <widget class="QCheckBox" name="chkAutoId">
            <property name="layoutDirection">
             <enum>Qt::RightToLeft</enum>
            </property>
@@ -397,7 +397,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="btnCreateBlog">
            <property name="text">
             <string>Create blog</string>
            </property>
@@ -441,9 +441,9 @@
  <resources/>
  <connections>
   <connection>
-   <sender>checkBox</sender>
+   <sender>chkAutoId</sender>
    <signal>toggled(bool)</signal>
-   <receiver>lineEdit_3</receiver>
+   <receiver>txtId</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">

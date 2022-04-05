@@ -64,20 +64,37 @@ void RegistrationDialog::setValidators()
 
 void RegistrationDialog::on_btnRegister_clicked()
 {
-    User newUser(true);
-    newUser.m_username = ui->txtUsername->text();
-    newUser.m_email = ui->txtEmail->text();
-    newUser.m_password = ui->txtPassword->text();
-
     if(!validateCredentials())
     {
         QMessageBox::critical(this, "Error", "Provided data is not correct!");
         return;
     }
 
+    QString id = ui->txtId->text();
+    QString username = ui->txtUsername->text();
+    QString email = ui->txtEmail->text();
+    QString password = ui->txtPassword->text();
+
+    User newUser(id, email, username, password);
+
     UserManager::getUserList()->append(newUser);
     UserManager::saveUsers();
     this->close();
 
+}
+
+
+void RegistrationDialog::on_chkAutoId_toggled(bool checked)
+{
+    if(checked)
+    {
+        ui->txtId->setEnabled(false);
+        ui->txtId->setText(QUuid::createUuid().toString(QUuid::Id128));
+    }
+    else
+    {
+        ui->txtId->setEnabled(true);
+        ui->txtId->clear();
+    }
 }
 

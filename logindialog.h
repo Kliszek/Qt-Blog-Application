@@ -28,7 +28,7 @@ private slots:
 private:
     Ui::LoginDialog *ui;
 
-    bool tryLogIn();
+    bool tryLogin();
 
 };
 #endif // LOGINDIALOG_H
