@@ -194,15 +194,7 @@ void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget 
     newEntry->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 
     QLabel* entryUser = new QLabel(newEntry);
-    if(user == nullptr)
-    {
-        qCritical() << "There is a blog with an invalid owner id!";
-        entryUser->setText("Added by: <invalid user id>");
-    }
-    else
-    {
-        entryUser->setText("Added by: " + user->m_username);
-    }
+    entryUser->setText("Added by: " + (user ? user->m_username : "<invalid user id>"));
     entryUser->setFont(QFont("Segoe", 7));
     entryUser->setAlignment(Qt::AlignRight);
     layout->addWidget(entryUser);
@@ -211,7 +203,7 @@ void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget 
     entryTitle->setLayout(new QVBoxLayout(entryTitle));
     entryTitle->setTitle(entry->m_title);
     entryTitle->setFont(QFont("Segoe", 12));
-    newEntry->layout()->addWidget(entryTitle);
+    layout->addWidget(entryTitle);
 
     QLabel* entryContents = new QLabel(entryTitle);
     entryContents->setText(entry->m_content);
@@ -235,9 +227,40 @@ void MainDialog::displayBlog(const Blog *blog, QWidget *wrapper)
 {
     clearBlogs(wrapper);
 
+    const User* user = UserManager::getUserById(blog->m_ownerId);
+
+    if(user == nullptr)
+        qCritical() << "There is a blog with an invalid owner id!";
+
+    QFrame* blogHeader = new QFrame(wrapper);
+    QVBoxLayout* layout = new QVBoxLayout(blogHeader);
+    blogHeader->setLayout(layout);
+    blogHeader->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+
+    QLabel* blogTitle = new QLabel(blogHeader);
+    blogTitle->setText(blog->m_title);
+    blogTitle->setAlignment(Qt::AlignCenter);
+    blogTitle->setFont(QFont("Segoe", 14, QFont::Bold));
+    layout->addWidget(blogTitle);
+
+    QLabel* blogOwner = new QLabel(blogHeader);
+    blogOwner->setText("A blog by: " + (user ? user->m_username : "<invalid user id>"));
+    blogOwner->setAlignment(Qt::AlignLeft);
+    blogOwner->setFont(QFont("Segoe", 9));
+    layout->addWidget(blogOwner);
+
+    QFrame* hLine = new QFrame(blogHeader);
+    hLine->setFrameShape(QFrame::HLine);
+    hLine->setFrameShadow(QFrame::Sunken);
+    layout->addWidget(hLine);
+
+    blogHeader->setContentsMargins(2,5,2,5);
+    wrapper->layout()->setAlignment(Qt::AlignTop);
+    wrapper->layout()->addWidget(blogHeader);
+
     for(int i=blog->m_entryList->size()-1; i>=0; i--)
     {
-        displayEntry(&blog->m_entryList->at(i), UserManager::getUserById(blog->m_ownerId), wrapper);
+        displayEntry(&blog->m_entryList->at(i), user, wrapper);
     }
 }
 
