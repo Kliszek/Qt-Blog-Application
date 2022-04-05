@@ -25,6 +25,7 @@ public:
 private:
     Ui::MainDialog *ui;
     void setValidators();
+    bool validateBlogData();
 
 private slots:
     void on_btnBox_accepted();

@@ -32,15 +32,56 @@ void MainDialog::on_btnBox_rejected()
 
 void MainDialog::setValidators()
 {
-    QRegularExpression rxNormal("^[a-zA-Z0-9 _\\-]{4,20}$");
+    QRegularExpression rxNormal("^[a-zA-Z0-9 _\\-]{3,20}$");
     QRegularExpression rxId("^[a-zA-Z0-9]{4,32}$");
     ui->txtId->setValidator(new QRegularExpressionValidator(rxId, this));
     ui->txtBlogTitle->setValidator(new QRegularExpressionValidator(rxNormal, this));
 }
 
-void MainDialog::on_btnCreateBlog_clicked()
+bool MainDialog::validateBlogData()
 {
 
+    bool valid = true;
+
+    for(QLineEdit* field : ui->boxBlogForm->findChildren<QLineEdit*>())
+    {
+        if(!field->hasAcceptableInput())
+        {
+            field->setStyleSheet("QLineEdit {border: 1px solid red;}");
+            valid = false;
+        }
+        else
+        {
+            field->setStyleSheet("");
+        }
+    }
+
+    if(!BlogManager::checkAvailability(ui->txtId->text()))
+    {
+        QMessageBox::critical(this, "Error", "This blog id is already in use!");
+        ui->txtId->setStyleSheet("QLineEdit {border: 1px solid red;}");
+        return false;
+    }
+    return valid;
+
+}
+
+void MainDialog::on_btnCreateBlog_clicked()
+{
+    if(!validateBlogData())
+    {
+        QMessageBox::critical(this, "Error", "Provided data is not correct!");
+        return;
+    }
+    qInfo()<<"AAAAAAAAAAAA";
+    QString blogId = ui->txtId->text();
+    QString ownerId = this->m_currentUser->getId();
+    QString title = ui->txtBlogTitle->text();
+
+    Blog newBlog(blogId, ownerId, title, new QList<BlogEntry>);
+
+    BlogManager::getBlogList()->append(newBlog);
+    BlogManager::saveBlogs();
 }
 
 
@@ -50,6 +91,7 @@ void MainDialog::on_chkAutoId_toggled(bool checked)
     {
         ui->txtId->setEnabled(false);
         ui->txtId->setText(QUuid::createUuid().toString(QUuid::Id128));
+        ui->txtId->setStyleSheet("");
     }
     else
     {

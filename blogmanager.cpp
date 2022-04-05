@@ -110,3 +110,28 @@ void BlogManager::addBlog(const Blog &blog)
         QMessageBox::critical(nullptr, "Error", "Could not save the blog to the blog file!");
     }
 }
+
+bool BlogManager::checkAvailability(QString id)
+{
+    if(blogList == nullptr)
+    {
+        qCritical() << "Trying to check available blog id, but the blog list has not been loaded yet!";
+        return false;
+    }
+
+    if(id.isEmpty())
+        return false;
+
+    for(int i=0; i<blogList->size(); i++)
+    {
+        if(blogList->at(i).m_blogId == id)
+            return false;
+    }
+
+    return true;
+}
+
+QList<Blog> *BlogManager::getBlogList()
+{
+    return blogList;
+}

@@ -264,7 +264,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_3">
+     <widget class="QWidget" name="boxBlogForm">
       <attribute name="title">
        <string>Create a new Blog</string>
       </attribute>

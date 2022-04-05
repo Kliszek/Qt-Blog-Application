@@ -90,6 +90,7 @@ void RegistrationDialog::on_chkAutoId_toggled(bool checked)
     {
         ui->txtId->setEnabled(false);
         ui->txtId->setText(QUuid::createUuid().toString(QUuid::Id128));
+        ui->txtId->setStyleSheet("");
     }
     else
     {

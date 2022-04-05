@@ -30,6 +30,10 @@ public:
 
     static void addBlog(const Blog& blog);
 
+    static bool checkAvailability(QString id);
+
+    static QList<Blog> *getBlogList();
+
 private:
     static QList<Blog>* blogList;
 
