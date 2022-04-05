@@ -80,11 +80,14 @@ void MainDialog::updateBlogList()
             ui->lstBlogList->addItem(blogList->at(i).m_title);
             ui->cmbBlogList->addItem(blogList->at(i).m_title);
         }
+        ui->lstAllBlogs->addItem(blogList->at(i).m_title);
     }
     if(ui->lstBlogList->count() == 0)
     {
         ui->lstBlogList->addItem("<you have no blogs>");
         ui->cmbBlogList->addItem("<you have no blogs>");
+        if(ui->lstAllBlogs->count() == 0)
+            ui->lstAllBlogs->addItem("<there are no blogs to display>");
     }
     ui->tabWidget->setCurrentIndex(1);
 }
