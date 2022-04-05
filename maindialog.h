@@ -41,6 +41,7 @@ private:
     void displayEntry(const BlogEntry *entry, const User *user, QWidget *wrapper);
     void displayBlog(const Blog *blog, QWidget* wrapper);
     void clearBlogs(QWidget* wrapper);
+    void clearInputs();
 
 private slots:
     void on_btnBox_accepted();

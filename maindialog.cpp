@@ -106,7 +106,7 @@ void MainDialog::updateBlogList(QString selectedBlog)
     ui->cmbBlogList->clear();
     ui->lstAllBlogs->clear();
 
-    for(int i=0; i<blogList->size(); i++)
+    for(int i=blogList->size()-1; i>=0; i--)
     {
         if(blogList->at(i).m_ownerId == m_currentUser->getId())
         {
@@ -159,6 +159,8 @@ void MainDialog::on_btnCreateBlog_clicked()
     BlogManager::saveBlogs();
     updateBlogList();
     ui->tabWidget->setCurrentIndex(1);
+
+    clearInputs();
 
     for(QListWidgetItem* item : ui->lstBlogList->findItems(title, Qt::MatchExactly))
     {
@@ -233,7 +235,7 @@ void MainDialog::displayBlog(const Blog *blog, QWidget *wrapper)
 {
     clearBlogs(wrapper);
 
-    for(int i=0; i<blog->m_entryList->size(); i++)
+    for(int i=blog->m_entryList->size()-1; i>=0; i--)
     {
         displayEntry(&blog->m_entryList->at(i), UserManager::getUserById(blog->m_ownerId), wrapper);
     }
@@ -245,6 +247,15 @@ void MainDialog::clearBlogs(QWidget *wrapper)
     {
         delete(entry);
     }
+}
+
+void MainDialog::clearInputs()
+{
+    ui->txtBlogTitle->clear();
+    ui->txtEntryTitle->clear();
+    ui->txtEntryContent->clear();
+    ui->txtId->clear();
+    ui->chkAutoId->setCheckState(Qt::Unchecked);
 }
 
 void MainDialog::on_lstBlogList_itemSelectionChanged()
@@ -297,6 +308,8 @@ void MainDialog::on_btnCreateEntry_clicked()
     BlogManager::saveBlogs();
     updateBlogList();
     ui->tabWidget->setCurrentIndex(1);
+
+    clearInputs();
 
     for(QListWidgetItem* item : ui->lstBlogList->findItems(parentBlog->m_title, Qt::MatchExactly))
     {
