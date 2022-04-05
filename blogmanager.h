@@ -28,9 +28,13 @@ public:
 
     static bool saveBlogs();
 
+    static const Blog* getBlogByTitle(const QString blogtitle);
+
+    static const Blog* getBlogById(const QString id);
+
     static void addBlog(const Blog& blog);
 
-    static bool checkAvailability(QString id);
+    static bool checkAvailability(QString id, QString title);
 
     static QList<Blog> *getBlogList();
 

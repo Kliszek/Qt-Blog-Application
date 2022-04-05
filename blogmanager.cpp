@@ -65,19 +65,6 @@ bool BlogManager::loadBlogs()
 bool BlogManager::saveBlogs()
 {
 
-//    BlogEntry be("title123", QDateTime::currentDateTime(), "content123456");
-//    BlogEntry be2("title234532", QDateTime::currentDateTime(), "dodawane");
-
-//    Blog blogTest("123", "4", "blog title", new QList<BlogEntry>());
-
-//    blogTest.m_entryList->append(be);
-//    blogTest.m_entryList->append(be2);
-
-//    //blogList = new QList<Blog>();
-
-//    blogList->append(blogTest);
-//    blogList->pop_back();
-
     QJsonArray jsonArr;
 
     for(int i=0; i<blogList->size(); i++)
@@ -111,7 +98,45 @@ void BlogManager::addBlog(const Blog &blog)
     }
 }
 
-bool BlogManager::checkAvailability(QString id)
+const Blog* BlogManager::getBlogByTitle(const QString blogtitle)
+{
+    if(blogList == nullptr)
+    {
+        qCritical() << "Trying to get blog by title, but the blog list has not been loaded yet!";
+        return nullptr;
+    }
+
+    for(int i=0; i<blogList->size(); i++)
+    {
+        if(blogList->at(i).m_title == blogtitle)
+        {
+            return &blogList->at(i);
+        }
+    }
+
+    return nullptr;
+}
+
+const Blog *BlogManager::getBlogById(const QString id)
+{
+    if(blogList == nullptr)
+    {
+        qCritical() << "Trying to get blog by id, but the blog list has not been loaded yet!";
+        return nullptr;
+    }
+
+    for(int i=0; i<blogList->size(); i++)
+    {
+        if(blogList->at(i).m_blogId == id)
+        {
+            return &blogList->at(i);
+        }
+    }
+
+    return nullptr;
+}
+
+bool BlogManager::checkAvailability(QString id, QString title)
 {
     if(blogList == nullptr)
     {
@@ -119,12 +144,9 @@ bool BlogManager::checkAvailability(QString id)
         return false;
     }
 
-    if(id.isEmpty())
-        return false;
-
     for(int i=0; i<blogList->size(); i++)
     {
-        if(blogList->at(i).m_blogId == id)
+        if(blogList->at(i).m_title == title || blogList->at(i).m_blogId == id)
             return false;
     }
 

@@ -57,10 +57,10 @@ bool MainDialog::validateBlogData()
         }
     }
 
-    if(!BlogManager::checkAvailability(ui->txtId->text()))
+    if(!BlogManager::checkAvailability(ui->txtId->text(), ui->txtBlogTitle->text()))
     {
-        QMessageBox::critical(this, "Error", "This blog id is already in use!");
-        ui->txtId->setStyleSheet("QLineEdit {border: 1px solid red;}");
+        QMessageBox::critical(this, "Error", "This blog id or title is already in use!");
+        //ui->txtId->setStyleSheet("QLineEdit {border: 1px solid red;}");
         return false;
     }
     return valid;

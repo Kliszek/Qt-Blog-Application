@@ -37,7 +37,7 @@ bool RegistrationDialog::validateCredentials()
     if(!UserManager::checkAvailability(ui->txtUsername->text(), ui->txtEmail->text(), ui->txtId->text()))
     {
         QMessageBox::critical(this, "Error", "This email or username is already in use!");
-        ui->txtUsername->setStyleSheet("QLineEdit {border: 1px solid red;}");
+        //ui->txtUsername->setStyleSheet("QLineEdit {border: 1px solid red;}");
         return false;
     }
 

@@ -151,7 +151,7 @@ bool UserManager::checkAvailability(QString username, QString email, QString id 
 
     for(int i=0; i<userList->size(); i++)
     {
-        if(userList->at(i).m_username == username || userList->at(i).m_email == email || (!id.isEmpty() && userList->at(i).m_id == id))
+        if(userList->at(i).m_username == username || userList->at(i).m_email == email || userList->at(i).m_id == id)
             return false;
     }
 

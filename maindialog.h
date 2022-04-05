@@ -24,6 +24,9 @@ public:
     const User* m_currentUser;
 
 private:
+    QString comboSelected;
+    void setCombo(QString id);
+
     Ui::MainDialog *ui;
     void setValidators();
     bool validateBlogData();
