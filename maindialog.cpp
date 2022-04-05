@@ -6,6 +6,7 @@ MainDialog::MainDialog(const User *user, QWidget *parent) :QDialog(parent), ui(n
     ui->setupUi(this);
     ui->txtUsername->setText(m_currentUser->m_username);
     setValidators();
+    updateBlogList();
 }
 
 MainDialog::~MainDialog()
@@ -32,7 +33,7 @@ void MainDialog::on_btnBox_rejected()
 
 void MainDialog::setValidators()
 {
-    QRegularExpression rxNormal("^[a-zA-Z0-9 _\\-]{3,20}$");
+    QRegularExpression rxNormal("^[a-zA-Z0-9 _\\-]{3,30}$");
     QRegularExpression rxId("^[a-zA-Z0-9]{4,32}$");
     ui->txtId->setValidator(new QRegularExpressionValidator(rxId, this));
     ui->txtBlogTitle->setValidator(new QRegularExpressionValidator(rxNormal, this));
@@ -66,6 +67,28 @@ bool MainDialog::validateBlogData()
 
 }
 
+void MainDialog::updateBlogList()
+{
+    QList<Blog>* blogList = BlogManager::getBlogList();
+    ui->lstBlogList->clear();
+    ui->cmbBlogList->clear();
+
+    for(int i=0; i<blogList->size(); i++)
+    {
+        if(blogList->at(i).m_ownerId == m_currentUser->getId())
+        {
+            ui->lstBlogList->addItem(blogList->at(i).m_title);
+            ui->cmbBlogList->addItem(blogList->at(i).m_title);
+        }
+    }
+    if(ui->lstBlogList->count() == 0)
+    {
+        ui->lstBlogList->addItem("<you have no blogs>");
+        ui->cmbBlogList->addItem("<you have no blogs>");
+    }
+    ui->tabWidget->setCurrentIndex(1);
+}
+
 void MainDialog::on_btnCreateBlog_clicked()
 {
     if(!validateBlogData())
@@ -82,6 +105,7 @@ void MainDialog::on_btnCreateBlog_clicked()
 
     BlogManager::getBlogList()->append(newBlog);
     BlogManager::saveBlogs();
+    updateBlogList();
 }
 
 

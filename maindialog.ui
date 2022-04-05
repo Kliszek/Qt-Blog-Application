@@ -105,15 +105,20 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>3</number>
      </property>
+     <widget class="QWidget" name="tab_3">
+      <attribute name="title">
+       <string>Browse all Blogs</string>
+      </attribute>
+     </widget>
      <widget class="QWidget" name="tab">
       <attribute name="title">
-       <string>Browse Blogs</string>
+       <string>Browse your Blogs</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout">
        <item row="0" column="0">
-        <widget class="QListWidget" name="listWidget">
+        <widget class="QListWidget" name="lstBlogList">
          <property name="frameShape">
           <enum>QFrame::Box</enum>
          </property>
@@ -172,7 +177,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QComboBox" name="comboBox">
+          <widget class="QComboBox" name="cmbBlogList">
            <item>
             <property name="text">
              <string>&lt;you have no blogs&gt;</string>

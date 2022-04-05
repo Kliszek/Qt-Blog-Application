@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QString>
+#include <QList>
 #include <QSettings>
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
@@ -26,6 +27,7 @@ private:
     Ui::MainDialog *ui;
     void setValidators();
     bool validateBlogData();
+    void updateBlogList();
 
 private slots:
     void on_btnBox_accepted();
