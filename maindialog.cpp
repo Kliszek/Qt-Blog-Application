@@ -4,7 +4,7 @@
 MainDialog::MainDialog(const User *user, QWidget *parent) :QDialog(parent), ui(new Ui::MainDialog), m_currentUser(user)
 {
     ui->setupUi(this);
-    ui->txtUsername->setText(m_currentUser->m_username);
+    ui->lblUsername->setText(m_currentUser->m_username);
     setValidators();
     updateBlogList();
 }
@@ -209,6 +209,7 @@ void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget 
     entryContents->setText(entry->m_content);
     entryContents->setWordWrap(true);
     entryContents->setFont(QFont("Segoe", 9));
+    //entryContents->setContentsMargins(0,15,0,15);
     entryTitle->layout()->addWidget(entryContents);
 
     QLabel* entryDate = new QLabel(newEntry);
@@ -217,8 +218,9 @@ void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget 
     entryDate->setFont(QFont("Segoe", 7));
     layout->addWidget(entryDate);
 
-    newEntry->setContentsMargins(10,10,10,10);
+    //newEntry->setContentsMargins(50,50,50,50);
 
+    wrapper->layout()->setSpacing(30);
     wrapper->layout()->setAlignment(Qt::AlignTop);
     wrapper->layout()->addWidget(newEntry);
 }
