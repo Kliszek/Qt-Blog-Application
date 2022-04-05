@@ -30,6 +30,7 @@ private slots:
     void on_btnBox_accepted();
     void on_btnBox_rejected();
     void on_btnCreateBlog_clicked();
+    void on_chkAutoId_toggled(bool checked);
 };
 
 #endif // MAINDIALOG_H
