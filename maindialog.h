@@ -36,9 +36,11 @@ private:
     Ui::MainDialog *ui;
     void setValidators();
     bool validateBlogData();
-    void updateBlogList();
+    bool validateEntryData();
+    void updateBlogList(QString selectedBlog = "");
     void displayEntry(const BlogEntry *entry, const User *user, QWidget *wrapper);
-    void displayBlog(const Blog *blog, QWidget *wrapper);
+    void displayBlog(const Blog *blog, QWidget* wrapper);
+    void clearBlogs(QWidget* wrapper);
 
 private slots:
     void on_btnBox_accepted();
@@ -47,6 +49,7 @@ private slots:
     void on_chkAutoId_toggled(bool checked);
     void on_lstBlogList_itemSelectionChanged();
     void on_lstAllBlogs_itemSelectionChanged();
+    void on_btnCreateEntry_clicked();
 };
 
 #endif // MAINDIALOG_H

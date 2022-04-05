@@ -37,6 +37,7 @@ void MainDialog::setValidators()
     QRegularExpression rxId("^[a-zA-Z0-9]{4,32}$");
     ui->txtId->setValidator(new QRegularExpressionValidator(rxId, this));
     ui->txtBlogTitle->setValidator(new QRegularExpressionValidator(rxNormal, this));
+    ui->txtEntryTitle->setValidator(new QRegularExpressionValidator(rxNormal, this));
 }
 
 bool MainDialog::validateBlogData()
@@ -67,9 +68,40 @@ bool MainDialog::validateBlogData()
 
 }
 
-void MainDialog::updateBlogList()
+bool MainDialog::validateEntryData()
+{
+
+    bool valid = true;
+
+    if(!ui->txtEntryTitle->hasAcceptableInput())
+    {
+        ui->txtEntryTitle->setStyleSheet("QLineEdit {border: 1px solid red;}");
+        valid = false;
+    }
+    else
+    {
+        ui->txtEntryTitle->setStyleSheet("");
+    }
+
+    if(ui->txtEntryContent->toPlainText().length() < 10)
+    {
+        ui->txtEntryContent->setStyleSheet("QLineEdit {border: 1px solid red;}");
+        valid = false;
+    }
+    else
+    {
+        ui->txtEntryContent->setStyleSheet("");
+    }
+
+    return valid;
+
+}
+
+void MainDialog::updateBlogList(QString selectedBlog)
 {
     QList<Blog>* blogList = BlogManager::getBlogList();
+    //QListWidgetItem selected;
+
     ui->lstBlogList->clear();
     ui->cmbBlogList->clear();
     ui->lstAllBlogs->clear();
@@ -78,8 +110,11 @@ void MainDialog::updateBlogList()
     {
         if(blogList->at(i).m_ownerId == m_currentUser->getId())
         {
+            //QListWidgetItem item(blogList->at(i).m_title);
             ui->lstBlogList->addItem(blogList->at(i).m_title);
             ui->cmbBlogList->addItem(blogList->at(i).m_title);
+            //if(item.text() == selectedBlog)
+            //    selected = item;
         }
         ui->lstAllBlogs->addItem(blogList->at(i).m_title);
     }
@@ -89,6 +124,7 @@ void MainDialog::updateBlogList()
         ui->cmbBlogList->addItem("<you have no blogs>");
         ui->cmbBlogList->setEnabled(false);
         ui->lstBlogList->setEnabled(false);
+        ui->btnCreateEntry->setEnabled(false);
         if(ui->lstAllBlogs->count() == 0)
         {
             ui->lstAllBlogs->addItem("<there are no blogs to display>");
@@ -101,9 +137,8 @@ void MainDialog::updateBlogList()
     {
         ui->cmbBlogList->setEnabled(true);
         ui->lstBlogList->setEnabled(true);
+        ui->btnCreateEntry->setEnabled(true);
     }
-
-    ui->tabWidget->setCurrentIndex(1);
 }
 
 void MainDialog::on_btnCreateBlog_clicked()
@@ -113,7 +148,7 @@ void MainDialog::on_btnCreateBlog_clicked()
         QMessageBox::critical(this, "Error", "Provided data is not correct!");
         return;
     }
-    qInfo()<<"AAAAAAAAAAAA";
+
     QString blogId = ui->txtId->text();
     QString ownerId = this->m_currentUser->getId();
     QString title = ui->txtBlogTitle->text();
@@ -123,6 +158,12 @@ void MainDialog::on_btnCreateBlog_clicked()
     BlogManager::getBlogList()->append(newBlog);
     BlogManager::saveBlogs();
     updateBlogList();
+    ui->tabWidget->setCurrentIndex(1);
+
+    for(QListWidgetItem* item : ui->lstBlogList->findItems(title, Qt::MatchExactly))
+    {
+        ui->lstBlogList->setCurrentItem(item);
+    }
 }
 
 
@@ -181,13 +222,7 @@ void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget 
     entryDate->setAlignment(Qt::AlignRight);
     entryDate->setFont(QFont("Segoe", 7));
     layout->addWidget(entryDate);
-    //qInfo() << newEntry->layout();
 
-    //newEntry->layout()->addWidget(entryTitle);
-
-
-    //newEntry->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-    //newEntry->setFixedHeight(100);
     newEntry->setContentsMargins(10,10,10,10);
 
     wrapper->layout()->setAlignment(Qt::AlignTop);
@@ -196,10 +231,7 @@ void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget 
 
 void MainDialog::displayBlog(const Blog *blog, QWidget *wrapper)
 {
-    for(QFrame* entry : wrapper->findChildren<QFrame*>(QString(), Qt::FindDirectChildrenOnly))
-    {
-        delete(entry);
-    }
+    clearBlogs(wrapper);
 
     for(int i=0; i<blog->m_entryList->size(); i++)
     {
@@ -207,8 +239,21 @@ void MainDialog::displayBlog(const Blog *blog, QWidget *wrapper)
     }
 }
 
+void MainDialog::clearBlogs(QWidget *wrapper)
+{
+    for(QFrame* entry : wrapper->findChildren<QFrame*>(QString(), Qt::FindDirectChildrenOnly))
+    {
+        delete(entry);
+    }
+}
+
 void MainDialog::on_lstBlogList_itemSelectionChanged()
 {
+    if(ui->lstBlogList->selectedItems().count() == 0)
+    {
+        clearBlogs(ui->wgtBlogEntries);
+        return;
+    }
     QString selected = ui->lstBlogList->selectedItems().at(0)->text();
 
     const Blog* blog = BlogManager::getBlogByTitle(selected);
@@ -219,9 +264,43 @@ void MainDialog::on_lstBlogList_itemSelectionChanged()
 
 void MainDialog::on_lstAllBlogs_itemSelectionChanged()
 {
+    if(ui->lstAllBlogs->selectedItems().count() == 0)
+    {
+        clearBlogs(ui->wgtAllBlogEntries);
+        return;
+    }
     QString selected = ui->lstAllBlogs->selectedItems().at(0)->text();
 
     const Blog* blog = BlogManager::getBlogByTitle(selected);
     displayBlog(blog, ui->wgtAllBlogEntries);
+}
+
+
+void MainDialog::on_btnCreateEntry_clicked()
+{
+    if(!validateEntryData())
+    {
+        QMessageBox::critical(this, "Error", "Provided data is not correct!");
+        return;
+    }
+
+    QString entryTitle = ui->txtEntryTitle->text();
+    QString entryContent = ui->txtEntryContent->toPlainText();
+
+
+    BlogEntry newEntry(entryTitle, QDateTime::currentDateTime(), entryContent);
+
+    const Blog* parentBlog = BlogManager::getBlogByTitle(ui->cmbBlogList->currentText());
+
+    parentBlog->m_entryList->append(newEntry);
+
+    BlogManager::saveBlogs();
+    updateBlogList();
+    ui->tabWidget->setCurrentIndex(1);
+
+    for(QListWidgetItem* item : ui->lstBlogList->findItems(parentBlog->m_title, Qt::MatchExactly))
+    {
+        ui->lstBlogList->setCurrentItem(item);
+    }
 }
 
