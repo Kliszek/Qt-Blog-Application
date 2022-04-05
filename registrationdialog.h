@@ -14,6 +14,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QRegularExpression>
+#include <QRegularExpressionValidator>
 
 namespace Ui {
 class RegistrationDialog;
@@ -33,6 +35,7 @@ private slots:
 private:
     Ui::RegistrationDialog *ui;
     bool validateCredentials();
+    void setValidators();
 };
 
 #endif // REGISTRATIONDIALOG_H

@@ -73,7 +73,7 @@
     </spacer>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="QGroupBox" name="boxRegForm">
      <property name="title">
       <string>Register</string>
      </property>
@@ -108,7 +108,11 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="txtId"/>
+         <widget class="QLineEdit" name="txtId">
+          <property name="inputMask">
+           <string/>
+          </property>
+         </widget>
         </item>
         <item row="5" column="1">
          <widget class="QLineEdit" name="txtPassword_2">
