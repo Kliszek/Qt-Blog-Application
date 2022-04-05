@@ -141,3 +141,87 @@ void MainDialog::on_chkAutoId_toggled(bool checked)
     }
 }
 
+void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget *wrapper)
+{
+    QFrame* newEntry = new QFrame(wrapper);
+    QVBoxLayout* layout = new QVBoxLayout(newEntry);
+
+    newEntry->setFrameStyle(QFrame::Box);
+    newEntry->setLayout(layout);
+    newEntry->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+
+    QLabel* entryUser = new QLabel(newEntry);
+    if(user == nullptr)
+    {
+        qCritical() << "There is a blog with an invalid owner id!";
+        entryUser->setText("Added by: <invalid user id>");
+    }
+    else
+    {
+        entryUser->setText("Added by: " + user->m_username);
+    }
+    entryUser->setFont(QFont("Segoe", 7));
+    entryUser->setAlignment(Qt::AlignRight);
+    layout->addWidget(entryUser);
+
+    QGroupBox* entryTitle = new QGroupBox(newEntry);
+    entryTitle->setLayout(new QVBoxLayout(entryTitle));
+    entryTitle->setTitle(entry->m_title);
+    entryTitle->setFont(QFont("Segoe", 12));
+    newEntry->layout()->addWidget(entryTitle);
+
+    QLabel* entryContents = new QLabel(entryTitle);
+    entryContents->setText(entry->m_content);
+    entryContents->setWordWrap(true);
+    entryContents->setFont(QFont("Segoe", 9));
+    entryTitle->layout()->addWidget(entryContents);
+
+    QLabel* entryDate = new QLabel(newEntry);
+    entryDate->setText("Added on: " + entry->m_date.toString());
+    entryDate->setAlignment(Qt::AlignRight);
+    entryDate->setFont(QFont("Segoe", 7));
+    layout->addWidget(entryDate);
+    //qInfo() << newEntry->layout();
+
+    //newEntry->layout()->addWidget(entryTitle);
+
+
+    //newEntry->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+    //newEntry->setFixedHeight(100);
+    newEntry->setContentsMargins(10,10,10,10);
+
+    wrapper->layout()->setAlignment(Qt::AlignTop);
+    wrapper->layout()->addWidget(newEntry);
+}
+
+void MainDialog::displayBlog(const Blog *blog, QWidget *wrapper)
+{
+    for(QFrame* entry : wrapper->findChildren<QFrame*>(QString(), Qt::FindDirectChildrenOnly))
+    {
+        delete(entry);
+    }
+
+    for(int i=0; i<blog->m_entryList->size(); i++)
+    {
+        displayEntry(&blog->m_entryList->at(i), UserManager::getUserById(blog->m_ownerId), wrapper);
+    }
+}
+
+void MainDialog::on_lstBlogList_itemSelectionChanged()
+{
+    QString selected = ui->lstBlogList->selectedItems().at(0)->text();
+
+    const Blog* blog = BlogManager::getBlogByTitle(selected);
+    displayBlog(blog, ui->wgtBlogEntries);
+
+}
+
+
+void MainDialog::on_lstAllBlogs_itemSelectionChanged()
+{
+    QString selected = ui->lstAllBlogs->selectedItems().at(0)->text();
+
+    const Blog* blog = BlogManager::getBlogByTitle(selected);
+    displayBlog(blog, ui->wgtAllBlogEntries);
+}
+

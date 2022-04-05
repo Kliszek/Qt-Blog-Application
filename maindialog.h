@@ -5,8 +5,14 @@
 #include <QString>
 #include <QList>
 #include <QSettings>
+#include <QListWidgetItem>
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
+#include <QFrame>
+#include <QLabel>
+#include <QGroupBox>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 #include "blogmanager.h"
 #include "user.h"
 
@@ -31,12 +37,16 @@ private:
     void setValidators();
     bool validateBlogData();
     void updateBlogList();
+    void displayEntry(const BlogEntry *entry, const User *user, QWidget *wrapper);
+    void displayBlog(const Blog *blog, QWidget *wrapper);
 
 private slots:
     void on_btnBox_accepted();
     void on_btnBox_rejected();
     void on_btnCreateBlog_clicked();
     void on_chkAutoId_toggled(bool checked);
+    void on_lstBlogList_itemSelectionChanged();
+    void on_lstAllBlogs_itemSelectionChanged();
 };
 
 #endif // MAINDIALOG_H

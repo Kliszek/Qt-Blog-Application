@@ -47,7 +47,7 @@ bool BlogManager::loadBlogs()
 
         foreach(const QJsonValue& blogEntryJson, blogEntries)
         {
-            BlogEntry newBlogEntry;
+            BlogEntry newBlogEntry(&newBlog);
             newBlogEntry.m_title = blogEntryJson["title"].toString();
             newBlogEntry.m_content = blogEntryJson["content"].toString();
             newBlogEntry.m_date = QDateTime::fromString(blogEntryJson["date"].toString());
