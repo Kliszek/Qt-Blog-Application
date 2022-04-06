@@ -14,6 +14,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QTextStream>
+#include <QSettings>
 #include "user.h"
 
 class UserManager : public QObject

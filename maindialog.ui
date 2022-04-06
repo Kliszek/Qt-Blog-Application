@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>802</width>
-    <height>605</height>
+    <width>912</width>
+    <height>615</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -114,7 +114,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_4">
       <attribute name="title">
@@ -165,7 +165,7 @@
             </property>
             <item>
              <property name="text">
-              <string>&lt;you have no blogs&gt;</string>
+              <string>&lt;there are no blogs to display&gt;</string>
              </property>
             </item>
            </widget>
@@ -198,8 +198,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>541</width>
-            <height>332</height>
+            <width>624</width>
+            <height>342</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_7"/>
@@ -290,7 +290,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>541</width>
+            <width>624</width>
             <height>332</height>
            </rect>
           </property>
@@ -496,6 +496,9 @@
           <widget class="QPushButton" name="btnCreateEntry">
            <property name="text">
             <string>Create entry</string>
+           </property>
+           <property name="default">
+            <bool>true</bool>
            </property>
           </widget>
          </item>

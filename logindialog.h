@@ -5,6 +5,8 @@
 #include <QString>
 #include <QMessageBox>
 #include <QSettings>
+#include <QDir>
+#include <QFileDialog>
 #include "user.h"
 
 QT_BEGIN_NAMESPACE
@@ -24,6 +26,8 @@ private slots:
     void on_btnLogin_clicked();
 
     void on_btnRegister_clicked();
+
+    void on_btnChangeFolder_clicked();
 
 private:
     Ui::LoginDialog *ui;

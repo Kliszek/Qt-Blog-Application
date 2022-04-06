@@ -26,7 +26,7 @@ User::User(QString id, QString email, QString username, QString password, QObjec
 
 User::~User()
 {
-
+    qInfo() << "Deconstructed User: " + m_username;
 }
 
 User &User::operator=(const User &user)

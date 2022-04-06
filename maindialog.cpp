@@ -19,7 +19,8 @@ MainDialog::~MainDialog()
 void MainDialog::on_btnLogOut_clicked()
 {
     QSettings settings(QSettings::UserScope);
-    settings.clear();
+    //settings.clear();
+    settings.remove("logged");
     this->close();
     m_loginDialog->show();
     delete(this);

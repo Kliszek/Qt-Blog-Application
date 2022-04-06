@@ -3,15 +3,15 @@
 #include "registrationdialog.h"
 #include "maindialog.h"
 #include "usermanager.h"
-#include <QCoreApplication>
-#include <QThread>
-#include <QGuiApplication>
 
 LoginDialog::LoginDialog(const User *loggedUser, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::LoginDialog)
 {
     ui->setupUi(this);
+
+    QSettings settings;
+    ui->txtDataDir->setText(settings.value("dataDir", "error").toString());
 
     if(loggedUser == nullptr)
     {
@@ -74,7 +74,7 @@ bool LoginDialog::tryLogin()
     if(ui->chkKeepLogged->isChecked())
     {
         QSettings settings(QSettings::UserScope);
-        settings.clear();
+        //settings.remove("logged");
         settings.setValue("logged", user->getId());
     }
 
@@ -86,5 +86,20 @@ bool LoginDialog::tryLogin()
     mainDial->setAttribute(Qt::WA_DeleteOnClose);
 
     return true;
+}
+
+
+void LoginDialog::on_btnChangeFolder_clicked()
+{
+    QSettings settings;
+    QString defaultDataFolder = QDir::home().absolutePath() + "/EGUI_Qt_Blog_Application";
+    QString newDataFolder = QFileDialog::getExistingDirectory(this, "Choose another data folder", defaultDataFolder);
+    if(newDataFolder.isEmpty())
+        return;
+    settings.setValue("dataDir", newDataFolder+"/");
+    settings.remove("logged");
+    UserManager::loadUsers();
+    BlogManager::loadBlogs();
+    ui->txtDataDir->setText(newDataFolder+"/");
 }
 

@@ -374,6 +374,9 @@
         <property name="text">
          <string>Create an account</string>
         </property>
+        <property name="default">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
      </layout>
