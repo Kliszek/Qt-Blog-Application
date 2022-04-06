@@ -15,14 +15,7 @@ MainDialog::~MainDialog()
     delete ui;
 }
 
-void MainDialog::on_btnBox_accepted()
-{
-    BlogManager::loadBlogs();
-    BlogManager::saveBlogs();
-}
-
-
-void MainDialog::on_btnBox_rejected()
+void MainDialog::on_btnLogOut_clicked()
 {
     QSettings settings(QSettings::UserScope);
     settings.clear();
@@ -252,6 +245,7 @@ void MainDialog::displayBlog(const Blog *blog, QWidget *wrapper)
     layout->addWidget(blogOwner);
 
     QFrame* hLine = new QFrame(blogHeader);
+    //hLine->setFrameStyle(QFrame::StyledPanel);
     hLine->setFrameShape(QFrame::HLine);
     hLine->setFrameShadow(QFrame::Sunken);
     layout->addWidget(hLine);
