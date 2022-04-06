@@ -27,7 +27,7 @@ void MainDialog::on_btnLogOut_clicked()
 
 void MainDialog::setValidators()
 {
-    QRegularExpression rxNormal("^[a-zA-Z0-9 _\\-]{3,30}$");
+    QRegularExpression rxNormal("^[a-zA-Z0-9 \\?\\!\\'\\\"_\\-]{3,40}$");
     QRegularExpression rxId("^[a-zA-Z0-9]{4,32}$");
     ui->txtId->setValidator(new QRegularExpressionValidator(rxId, this));
     ui->txtBlogTitle->setValidator(new QRegularExpressionValidator(rxNormal, this));
@@ -37,58 +37,62 @@ void MainDialog::setValidators()
 bool MainDialog::validateBlogData()
 {
 
+    ui->txtIdErr->setText("Unique Id has to be 4-32 characters long!");
+    ui->txtIdErr->setVisible(false);
+    ui->txtBlogTitleErr->setText("Blog title has to be 3-40 characters long!");
+    ui->txtBlogTitleErr->setVisible(false);
+
     bool valid = true;
 
     for(QLineEdit* field : ui->boxBlogForm->findChildren<QLineEdit*>())
-    {
         if(!field->hasAcceptableInput())
         {
-            field->setStyleSheet("QLineEdit {border: 1px solid red;}");
+            field->parent()->findChild<QLabel*>(field->objectName()+"Err")->setVisible(true);
             valid = false;
         }
-        else
-        {
-            field->setStyleSheet("");
-        }
+
+    if(!BlogManager::idAvailable(ui->txtId->text()))
+    {
+        //QMessageBox::critical(this, "Error", "This blog id or title is already in use!");
+        ui->txtIdErr->setText("This blog id is already in use!");
+        ui->txtIdErr->setVisible(true);
+        valid = false;
     }
 
-    if(!BlogManager::checkAvailability(ui->txtId->text(), ui->txtBlogTitle->text()))
+    if(!BlogManager::titleAvailable(ui->txtBlogTitle->text()))
     {
-        QMessageBox::critical(this, "Error", "This blog id or title is already in use!");
-        //ui->txtId->setStyleSheet("QLineEdit {border: 1px solid red;}");
-        return false;
+        //QMessageBox::critical(this, "Error", "This blog id or title is already in use!");
+        ui->txtBlogTitleErr->setText("This blog title is not available!");
+        ui->txtBlogTitleErr->setVisible(true);
+        valid = false;
     }
+
     return valid;
 
 }
 
 bool MainDialog::validateEntryData()
 {
+    ui->txtEntryTitleErr->setText("Entry title has to be 3-40 characters long!");
+    ui->txtEntryTitleErr->setVisible(false);
+    ui->txtEntryContentErr->setText("Entry contents have to be at least 3 characters long!");
+    ui->txtEntryContentErr->setVisible(false);
 
     bool valid = true;
 
     if(!ui->txtEntryTitle->hasAcceptableInput())
     {
-        ui->txtEntryTitle->setStyleSheet("QLineEdit {border: 1px solid red;}");
+        ui->txtEntryTitleErr->setVisible(true);
         valid = false;
-    }
-    else
-    {
-        ui->txtEntryTitle->setStyleSheet("");
     }
 
-    if(ui->txtEntryContent->toPlainText().length() < 10)
+    if(ui->txtEntryContent->toPlainText().length() < 3)
     {
-        ui->txtEntryContent->setStyleSheet("QLineEdit {border: 1px solid red;}");
+        ui->txtEntryContentErr->setVisible(true);
         valid = false;
-    }
-    else
-    {
-        ui->txtEntryContent->setStyleSheet("");
     }
 
     return valid;
-
 }
 
 void MainDialog::updateBlogList()
@@ -144,7 +148,7 @@ void MainDialog::on_btnCreateBlog_clicked()
 
     if(!validateBlogData())
     {
-        QMessageBox::critical(this, "Error", "Provided data is not correct!");
+        //QMessageBox::critical(this, "Error", "Provided data is not correct!");
         return;
     }
 
@@ -352,7 +356,7 @@ void MainDialog::on_btnCreateEntry_clicked()
 
     if(!validateEntryData())
     {
-        QMessageBox::critical(this, "Error", "Provided data is not correct!");
+        //QMessageBox::critical(this, "Error", "Provided data is not correct!");
         return;
     }
 
@@ -384,7 +388,7 @@ void MainDialog::on_btnDeleteBlog_clicked()
 {
     //const Blog* blog = BlogManager::getBlogByTitle(ui->cmbDeleteBlog->currentText());
 
-    QMessageBox::StandardButton answer = QMessageBox::question(this,"Warning","Are you sure you want to delete blog \""+ui->cmbDeleteBlog->currentText()+"\" and all of its content?");
+    QMessageBox::StandardButton answer = QMessageBox::question(this,"Warning","Are you sure you want to delete blog \""+ui->cmbDeleteBlog->currentText()+"\" and all of its content?", QMessageBox::Yes|QMessageBox::No, QMessageBox::No);
 
     if(answer == QMessageBox::No)
         return;
@@ -420,7 +424,7 @@ void MainDialog::deleteEntry()
         return;
     }
 
-    QMessageBox::StandardButton answer = QMessageBox::question(this,"Warning","Are you sure you want to delete this blog entry?");
+    QMessageBox::StandardButton answer = QMessageBox::question(this,"Warning","Are you sure you want to delete this blog entry?", QMessageBox::Yes|QMessageBox::No, QMessageBox::No);
 
     if(answer == QMessageBox::No)
         return;

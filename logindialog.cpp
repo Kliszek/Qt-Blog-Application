@@ -48,19 +48,26 @@ void LoginDialog::on_btnLogin_clicked()
 
 bool LoginDialog::tryLogin()
 {
+    ui->txtUsernameErr->setText("Provided username does not belong to any user!");
+    ui->txtUsernameErr->setVisible(false);
+    ui->txtPasswordErr->setText("Provided password is not correct!");
+    ui->txtPasswordErr->setVisible(false);
+
     QString password = UserManager::getPassword(ui->txtUsername->text());
 
     const User* user = UserManager::getUserByName(ui->txtUsername->text());
 
     if(user == nullptr)
     {
-        QMessageBox::critical(this, "Error", "Provided username does not belong to any user!");
+        //QMessageBox::critical(this, "Error", "Provided username does not belong to any user!");
+        ui->txtUsernameErr->setVisible(true);
         return false;
     }
 
     if(password != ui->txtPassword->text())
     {
-        QMessageBox::critical(this, "Error", "Provided password is not correct!");
+        //QMessageBox::critical(this, "Error", "Provided password is not correct!");
+        ui->txtPasswordErr->setVisible(true);
         return false;
     }
 

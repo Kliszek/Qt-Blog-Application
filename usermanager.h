@@ -34,7 +34,9 @@ public:
 
     static const User* getUserById(const QString id);
 
-    static bool checkAvailability(QString username, QString email, QString id);
+    static bool usernameAvailable(QString username);
+    static bool emailAvailable(QString email);
+    static bool idAvailable(QString id);
 
     static QString getPassword(const QString username);
 

@@ -34,7 +34,8 @@ public:
 
     static void addBlog(const Blog& blog);
 
-    static bool checkAvailability(QString id, QString title);
+    static bool idAvailable(QString id);
+    static bool titleAvailable(QString title);
 
     static QList<Blog> *getBlogList();
 

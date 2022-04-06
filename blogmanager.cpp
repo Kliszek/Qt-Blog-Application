@@ -136,7 +136,7 @@ const Blog *BlogManager::getBlogById(const QString id)
     return nullptr;
 }
 
-bool BlogManager::checkAvailability(QString id, QString title)
+bool BlogManager::idAvailable(QString id)
 {
     if(blogList == nullptr)
     {
@@ -146,7 +146,23 @@ bool BlogManager::checkAvailability(QString id, QString title)
 
     for(int i=0; i<blogList->size(); i++)
     {
-        if(blogList->at(i).m_title == title || blogList->at(i).m_blogId == id)
+        if(blogList->at(i).m_blogId == id)
+            return false;
+    }
+
+    return true;
+}
+bool BlogManager::titleAvailable(QString title)
+{
+    if(blogList == nullptr)
+    {
+        qCritical() << "Trying to check available blog title, but the blog list has not been loaded yet!";
+        return false;
+    }
+
+    for(int i=0; i<blogList->size(); i++)
+    {
+        if(blogList->at(i).m_title == title)
             return false;
     }
 

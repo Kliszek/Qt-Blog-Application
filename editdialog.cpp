@@ -24,7 +24,7 @@ void EditDialog::on_buttonBox_accepted()
 
     if(!validateEntryData())
     {
-        QMessageBox::critical(this, "Error", "Provided data is not correct!");
+        //QMessageBox::critical(this, "Error", "Provided data is not correct!");
         return;
     }
 
@@ -46,37 +46,32 @@ void EditDialog::on_buttonBox_rejected()
 
 void EditDialog::setValidators()
 {
-    QRegularExpression rxNormal("^[a-zA-Z0-9 _\\-]{3,30}$");
+    QRegularExpression rxNormal("^[a-zA-Z0-9 \\?\\!\\'\\\"_\\-]{3,40}$");
     ui->txtEntryTitle->setValidator(new QRegularExpressionValidator(rxNormal, this));
 }
 
 bool EditDialog::validateEntryData()
 {
+    ui->txtEntryTitleErr->setText("Entry title has to be 3-40 characters long!");
+    ui->txtEntryTitleErr->setVisible(false);
+    ui->txtEntryContentErr->setText("Entry contents have to be at least 3 characters long!");
+    ui->txtEntryContentErr->setVisible(false);
 
     bool valid = true;
 
     if(!ui->txtEntryTitle->hasAcceptableInput())
     {
-        ui->txtEntryTitle->setStyleSheet("QLineEdit {border: 1px solid red;}");
+        ui->txtEntryTitleErr->setVisible(true);
         valid = false;
-    }
-    else
-    {
-        ui->txtEntryTitle->setStyleSheet("");
     }
 
-    if(ui->txtEntryContent->toPlainText().length() < 10)
+    if(ui->txtEntryContent->toPlainText().length() < 3)
     {
-        ui->txtEntryContent->setStyleSheet("QLineEdit {border: 1px solid red;}");
+        ui->txtEntryContentErr->setVisible(true);
         valid = false;
-    }
-    else
-    {
-        ui->txtEntryContent->setStyleSheet("");
     }
 
     return valid;
-
 }
 
 void EditDialog::trimInputs()

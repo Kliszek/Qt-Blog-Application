@@ -21,32 +21,52 @@ bool RegistrationDialog::validateCredentials()
 {
     bool valid = true;
 
+    ui->txtUsernameErr->setText("Username has to be 4-20 characters long!");
+    ui->txtEmailErr->setText("Provided email address is not correct!");
+    ui->txtIdErr->setText("Unique Id has to be 4-32 characters long!");
+    ui->txtPasswordErr->setText("Password has to be 4-20 characters long!");
+    ui->txtPassword_2Err->setText("Passwords do not match!");
+
+    for(QLabel* errLabel : ui->boxRegForm->findChildren<QLabel*>(QString(),Qt::FindDirectChildrenOnly))
+        if(errLabel->objectName().contains("Err"))
+            errLabel->setVisible(false);
+
     for(QLineEdit* field : ui->boxRegForm->findChildren<QLineEdit*>())
-    {
         if(!field->hasAcceptableInput())
         {
-            field->setStyleSheet("QLineEdit {border: 1px solid red;}");
+            field->parent()->findChild<QLabel*>(field->objectName()+"Err")->setVisible(true);
             valid = false;
         }
-        else
-        {
-            field->setStyleSheet("");
-        }
-    }
-
-    if(!UserManager::checkAvailability(ui->txtUsername->text(), ui->txtEmail->text(), ui->txtId->text()))
-    {
-        QMessageBox::critical(this, "Error", "This email or username is already in use!");
-        //ui->txtUsername->setStyleSheet("QLineEdit {border: 1px solid red;}");
-        return false;
-    }
 
     if(ui->txtPassword->text() != ui->txtPassword_2->text())
     {
-        QMessageBox::critical(this, "Error", "Passwords do not match!");
-        ui->txtPassword_2->setStyleSheet("QLineEdit {border: 1px solid red;}");
-        return false;
+        //ui->txtPassword_2->setStyleSheet("border: 1px solid red");
+        ui->txtPassword_2Err->setVisible(true);
+        valid = false;
     }
+
+    if(!UserManager::idAvailable(ui->txtId->text()))
+    {
+        //ui->txtId->setStyleSheet("border: 1px solid red");
+        ui->txtIdErr->setText("This Id is already taken!");
+        ui->txtIdErr->setVisible(true);
+        valid = false;
+    }
+    if(!UserManager::usernameAvailable(ui->txtUsername->text()))
+    {
+        //ui->txtUsername->setStyleSheet("border: 1px solid red");
+        ui->txtUsernameErr->setText("This username is already taken!");
+        ui->txtUsernameErr->setVisible(true);
+        valid = false;
+    }
+    if(!UserManager::emailAvailable(ui->txtEmail->text()))
+    {
+        //ui->txtEmail->setStyleSheet("border: 1px solid red");
+        ui->txtEmailErr->setText("This email is already being used!");
+        ui->txtEmailErr->setVisible(true);
+        valid = false;
+    }
+
     return valid;
 }
 
@@ -75,7 +95,7 @@ void RegistrationDialog::on_btnRegister_clicked()
 
     if(!validateCredentials())
     {
-        QMessageBox::critical(this, "Error", "Provided data is not correct!");
+        //QMessageBox::critical(this, "Error", "Provided data is not correct!");
         return;
     }
 
@@ -100,7 +120,8 @@ void RegistrationDialog::on_chkAutoId_toggled(bool checked)
     {
         ui->txtId->setEnabled(false);
         ui->txtId->setText(QUuid::createUuid().toString(QUuid::Id128));
-        ui->txtId->setStyleSheet("");
+        //ui->txtId->setStyleSheet("");
+        ui->txtIdErr->setVisible(false);
     }
     else
     {
