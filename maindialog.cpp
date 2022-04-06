@@ -223,7 +223,7 @@ void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget 
         QPushButton* editBut = new QPushButton(newEntry);
         editBut->setText("Edit");
         editBut->setProperty("entryIndex", entryIndex);
-        //
+        QObject::connect(editBut, &QPushButton::clicked, this, &MainDialog::editEntry);
 
         QPushButton* deleteBut = new QPushButton(newEntry);
         deleteBut->setText("Delete");
@@ -441,5 +441,39 @@ void MainDialog::deleteEntry()
         ui->lstBlogList->setCurrentItem(item);
         break;
     }
+}
+
+void MainDialog::editEntry()
+{
+    QString blogTitle = "";
+    for(QListWidgetItem* item : ui->lstBlogList->selectedItems())
+    {
+        blogTitle = item->text();
+        break;
+    }
+
+    int entryIndex = sender()->property("entryIndex").toInt();
+
+    const Blog* parentBlog = BlogManager::getBlogByTitle(blogTitle);
+
+    //BlogEntry* entry = (BlogEntry*)&parentBlog->m_entryList->at(entryIndex);
+
+    EditDialog editDial(parentBlog, entryIndex, this);
+    if(editDial.exec() == 0)
+        return;
+
+    BlogManager::saveBlogs();
+    updateBlogList();
+    ui->tabWidget->setCurrentIndex(1);
+
+    clearInputs();
+
+    for(QListWidgetItem* item : ui->lstBlogList->findItems(parentBlog->m_title, Qt::MatchExactly))
+    {
+        ui->lstBlogList->setCurrentItem(item);
+        break;
+    }
+
+
 }
 

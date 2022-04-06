@@ -15,6 +15,7 @@
 #include <QHBoxLayout>
 #include "blogmanager.h"
 #include "user.h"
+#include "editdialog.h"
 
 namespace Ui {
 class MainDialog;
@@ -54,6 +55,7 @@ private slots:
     void on_btnCreateEntry_clicked();
     void on_btnDeleteBlog_clicked();
     void deleteEntry();
+    void editEntry();
 };
 
 #endif // MAINDIALOG_H

@@ -35,6 +35,9 @@ set(PROJECT_SOURCES
         usermanager.cpp
         blogmanager.h
         blogmanager.cpp
+        editdialog.h
+        editdialog.cpp
+        editdialog.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
