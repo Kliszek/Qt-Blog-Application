@@ -62,8 +62,17 @@ void RegistrationDialog::setValidators()
     ui->txtEmail->setValidator(new QRegularExpressionValidator(rxEmail, this));
 }
 
+void RegistrationDialog::trimInputs()
+{
+    ui->txtEmail->setText(ui->txtEmail->text().trimmed());
+    ui->txtId->setText(ui->txtId->text().trimmed());
+    ui->txtUsername->setText(ui->txtUsername->text().trimmed());
+}
+
 void RegistrationDialog::on_btnRegister_clicked()
 {
+    trimInputs();
+
     if(!validateCredentials())
     {
         QMessageBox::critical(this, "Error", "Provided data is not correct!");
@@ -79,6 +88,7 @@ void RegistrationDialog::on_btnRegister_clicked()
 
     UserManager::getUserList()->append(newUser);
     UserManager::saveUsers();
+    QMessageBox::information(this, "Success!", "Account successfully created!");
     this->close();
 
 }

@@ -41,6 +41,7 @@ private:
     void displayBlog(const Blog *blog, QWidget* wrapper);
     void clearBlogs(QWidget* wrapper);
     void clearInputs();
+    void trimInputs();
 
 private slots:
     void on_btnLogOut_clicked();

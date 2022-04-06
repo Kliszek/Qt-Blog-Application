@@ -39,6 +39,7 @@ private:
     Ui::RegistrationDialog *ui;
     bool validateCredentials();
     void setValidators();
+    void trimInputs();
 };
 
 #endif // REGISTRATIONDIALOG_H

@@ -132,6 +132,8 @@ void MainDialog::updateBlogList()
 
 void MainDialog::on_btnCreateBlog_clicked()
 {
+    trimInputs();
+
     if(!validateBlogData())
     {
         QMessageBox::critical(this, "Error", "Provided data is not correct!");
@@ -201,7 +203,7 @@ void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget 
     entryTitle->layout()->addWidget(entryContents);
 
     QLabel* entryDate = new QLabel(newEntry);
-    entryDate->setText("Added on: " + entry->m_date.toString());
+    entryDate->setText("Added on: " + entry->m_date.toString("ddd, MMMM d yyyy, hh:mm:ss"));
     entryDate->setAlignment(Qt::AlignRight);
     entryDate->setFont(QFont("Segoe", 7));
     layout->addWidget(entryDate);
@@ -274,6 +276,14 @@ void MainDialog::clearInputs()
     ui->chkAutoId->setCheckState(Qt::Unchecked);
 }
 
+void MainDialog::trimInputs()
+{
+    ui->txtBlogTitle->setText(ui->txtBlogTitle->text().trimmed());
+    ui->txtEntryTitle->setText(ui->txtEntryTitle->text().trimmed());
+    ui->txtEntryContent->setPlainText(ui->txtEntryContent->toPlainText().trimmed());
+    ui->txtId->setText(ui->txtId->text().trimmed());
+}
+
 void MainDialog::on_lstBlogList_itemSelectionChanged()
 {
     if(ui->lstBlogList->selectedItems().count() == 0)
@@ -305,6 +315,8 @@ void MainDialog::on_lstAllBlogs_itemSelectionChanged()
 
 void MainDialog::on_btnCreateEntry_clicked()
 {
+    trimInputs();
+
     if(!validateEntryData())
     {
         QMessageBox::critical(this, "Error", "Provided data is not correct!");
