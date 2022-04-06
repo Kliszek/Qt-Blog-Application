@@ -24,7 +24,7 @@ class MainDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit MainDialog(const User* user, QWidget *parent = nullptr);
+    explicit MainDialog(const User* user, QWidget* loginDialog, QWidget *parent = nullptr);
     ~MainDialog();
     const User* m_currentUser;
 
@@ -42,6 +42,7 @@ private:
     void clearBlogs(QWidget* wrapper);
     void clearInputs();
     void trimInputs();
+    QWidget* m_loginDialog;
 
 private slots:
     void on_btnLogOut_clicked();

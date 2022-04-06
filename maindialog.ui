@@ -636,7 +636,13 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="cmbDeleteBlog"/>
+             <widget class="QComboBox" name="cmbDeleteBlog">
+              <item>
+               <property name="text">
+                <string>&lt;you have no blogs&gt;</string>
+               </property>
+              </item>
+             </widget>
             </item>
            </layout>
           </item>

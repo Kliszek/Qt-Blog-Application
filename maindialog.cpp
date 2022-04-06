@@ -1,9 +1,10 @@
 #include "maindialog.h"
 #include "ui_maindialog.h"
 
-MainDialog::MainDialog(const User *user, QWidget *parent) :QDialog(parent), ui(new Ui::MainDialog), m_currentUser(user)
+MainDialog::MainDialog(const User *user, QWidget *loginDialog, QWidget *parent) :QDialog(parent), ui(new Ui::MainDialog), m_currentUser(user)
 {
     ui->setupUi(this);
+    m_loginDialog = loginDialog;
     ui->lblUsername->setText(m_currentUser->m_username);
     setValidators();
     updateBlogList();
@@ -20,7 +21,7 @@ void MainDialog::on_btnLogOut_clicked()
     QSettings settings(QSettings::UserScope);
     settings.clear();
     this->close();
-    this->parentWidget()->show();
+    m_loginDialog->show();
     delete(this);
 }
 

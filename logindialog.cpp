@@ -21,6 +21,7 @@ LoginDialog::LoginDialog(const User *loggedUser, QWidget *parent)
     {
         MainDialog* mainDial = new MainDialog(loggedUser, this);
         mainDial->show();
+        mainDial->setAttribute(Qt::WA_DeleteOnClose);
     }
 }
 
@@ -75,6 +76,7 @@ bool LoginDialog::tryLogin()
     this->close();
 
     mainDial->show();
+    mainDial->setAttribute(Qt::WA_DeleteOnClose);
 
     return true;
 }
