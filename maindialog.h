@@ -12,6 +12,7 @@
 #include <QLabel>
 #include <QGroupBox>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include "blogmanager.h"
 #include "user.h"
 
@@ -37,8 +38,8 @@ private:
     bool validateBlogData();
     bool validateEntryData();
     void updateBlogList();
-    void displayEntry(const BlogEntry *entry, const User *user, QWidget *wrapper);
-    void displayBlog(const Blog *blog, QWidget* wrapper);
+    void displayEntry(const BlogEntry *entry, const User *user, QWidget *wrapper, int entryIndex = -1);
+    void displayBlog(const Blog *blog, QWidget* wrapper, bool showControls = false);
     void clearBlogs(QWidget* wrapper);
     void clearInputs();
     void trimInputs();
@@ -52,6 +53,7 @@ private slots:
     void on_lstAllBlogs_itemSelectionChanged();
     void on_btnCreateEntry_clicked();
     void on_btnDeleteBlog_clicked();
+    void deleteEntry();
 };
 
 #endif // MAINDIALOG_H

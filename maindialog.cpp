@@ -164,6 +164,7 @@ void MainDialog::on_btnCreateBlog_clicked()
     for(QListWidgetItem* item : ui->lstBlogList->findItems(title, Qt::MatchExactly))
     {
         ui->lstBlogList->setCurrentItem(item);
+        break;
     }
 }
 
@@ -183,7 +184,7 @@ void MainDialog::on_chkAutoId_toggled(bool checked)
     }
 }
 
-void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget *wrapper)
+void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget *wrapper, int entryIndex)
 {
     QFrame* newEntry = new QFrame(wrapper);
     QVBoxLayout* layout = new QVBoxLayout(newEntry);
@@ -216,12 +217,31 @@ void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget 
     entryDate->setFont(QFont("Segoe", 7));
     layout->addWidget(entryDate);
 
+    if(entryIndex > -1)
+    {
+        QHBoxLayout* buttons = new QHBoxLayout();
+        QPushButton* editBut = new QPushButton(newEntry);
+        editBut->setText("Edit");
+        editBut->setProperty("entryIndex", entryIndex);
+        //
+
+        QPushButton* deleteBut = new QPushButton(newEntry);
+        deleteBut->setText("Delete");
+        deleteBut->setProperty("entryIndex", entryIndex);
+        QObject::connect(deleteBut, &QPushButton::clicked, this, &MainDialog::deleteEntry);
+
+        buttons->addItem(new QSpacerItem(0,0,QSizePolicy::Expanding));
+        buttons->addWidget(editBut);
+        buttons->addWidget(deleteBut);
+        layout->addLayout(buttons);
+    }
+
     wrapper->layout()->setSpacing(30);
     wrapper->layout()->setAlignment(Qt::AlignTop);
     wrapper->layout()->addWidget(newEntry);
 }
 
-void MainDialog::displayBlog(const Blog *blog, QWidget *wrapper)
+void MainDialog::displayBlog(const Blog *blog, QWidget *wrapper, bool showControls)
 {
     clearBlogs(wrapper);
 
@@ -262,7 +282,7 @@ void MainDialog::displayBlog(const Blog *blog, QWidget *wrapper)
     }
     else for(int i=blog->m_entryList->size()-1; i>=0; i--)
     {
-        displayEntry(&blog->m_entryList->at(i), user, wrapper);
+        displayEntry(&blog->m_entryList->at(i), user, wrapper, showControls ? i : -1);
     }
 
     QFrame* spacer = new QFrame(wrapper);
@@ -307,7 +327,7 @@ void MainDialog::on_lstBlogList_itemSelectionChanged()
     QString selected = ui->lstBlogList->selectedItems().at(0)->text();
 
     const Blog* blog = BlogManager::getBlogByTitle(selected);
-    displayBlog(blog, ui->wgtBlogEntries);
+    displayBlog(blog, ui->wgtBlogEntries, true);
 
 }
 
@@ -355,6 +375,7 @@ void MainDialog::on_btnCreateEntry_clicked()
     for(QListWidgetItem* item : ui->lstBlogList->findItems(parentBlog->m_title, Qt::MatchExactly))
     {
         ui->lstBlogList->setCurrentItem(item);
+        break;
     }
 }
 
@@ -374,6 +395,7 @@ void MainDialog::on_btnDeleteBlog_clicked()
         if(blogList->at(i).m_title == ui->cmbDeleteBlog->currentText())
         {
             blogList->removeAt(i);
+            break;
         }
     }
     BlogManager::saveBlogs();
@@ -381,5 +403,43 @@ void MainDialog::on_btnDeleteBlog_clicked()
     ui->tabWidget->setCurrentIndex(1);
 
     clearInputs();
+}
+
+void MainDialog::deleteEntry()
+{
+    QString blogTitle = "";
+    for(QListWidgetItem* item : ui->lstBlogList->selectedItems())
+    {
+        blogTitle = item->text();
+        break;
+    }
+
+    if(blogTitle == "")
+    {
+        qCritical() << "Could not find the parent blog!";
+        return;
+    }
+
+    QMessageBox::StandardButton answer = QMessageBox::question(this,"Warning","Are you sure you want to delete this blog entry?");
+
+    if(answer == QMessageBox::No)
+        return;
+
+    int entryIndex = sender()->property("entryIndex").toInt();
+
+    const Blog* parentBlog = BlogManager::getBlogByTitle(blogTitle);
+    parentBlog->m_entryList->removeAt(entryIndex);
+
+    BlogManager::saveBlogs();
+    updateBlogList();
+    ui->tabWidget->setCurrentIndex(1);
+
+    clearInputs();
+
+    for(QListWidgetItem* item : ui->lstBlogList->findItems(parentBlog->m_title, Qt::MatchExactly))
+    {
+        ui->lstBlogList->setCurrentItem(item);
+        break;
+    }
 }
 
