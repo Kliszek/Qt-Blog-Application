@@ -18,7 +18,7 @@ bool BlogManager::loadBlogs()
     if(!UserManager::createDirectory(userDir))
         return false;
 
-    QFile blogFile = userDir.absolutePath() + "/blogs.json";
+    QFile blogFile = userDir.absoluteFilePath("blogs.json");
 
 
     if(!blogFile.exists())
