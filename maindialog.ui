@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>751</width>
+    <width>802</width>
     <height>605</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Qt Blog Application</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -114,7 +114,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_4">
       <attribute name="title">
@@ -198,7 +198,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>503</width>
+            <width>541</width>
             <height>332</height>
            </rect>
           </property>
@@ -290,7 +290,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>503</width>
+            <width>541</width>
             <height>332</height>
            </rect>
           </property>
