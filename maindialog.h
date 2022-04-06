@@ -36,7 +36,7 @@ private:
     void setValidators();
     bool validateBlogData();
     bool validateEntryData();
-    void updateBlogList(QString selectedBlog = "");
+    void updateBlogList();
     void displayEntry(const BlogEntry *entry, const User *user, QWidget *wrapper);
     void displayBlog(const Blog *blog, QWidget* wrapper);
     void clearBlogs(QWidget* wrapper);

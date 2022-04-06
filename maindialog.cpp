@@ -90,10 +90,9 @@ bool MainDialog::validateEntryData()
 
 }
 
-void MainDialog::updateBlogList(QString selectedBlog)
+void MainDialog::updateBlogList()
 {
     QList<Blog>* blogList = BlogManager::getBlogList();
-    //QListWidgetItem selected;
 
     ui->lstBlogList->clear();
     ui->cmbBlogList->clear();
@@ -103,11 +102,8 @@ void MainDialog::updateBlogList(QString selectedBlog)
     {
         if(blogList->at(i).m_ownerId == m_currentUser->getId())
         {
-            //QListWidgetItem item(blogList->at(i).m_title);
             ui->lstBlogList->addItem(blogList->at(i).m_title);
             ui->cmbBlogList->addItem(blogList->at(i).m_title);
-            //if(item.text() == selectedBlog)
-            //    selected = item;
         }
         ui->lstAllBlogs->addItem(blogList->at(i).m_title);
     }
@@ -184,7 +180,7 @@ void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget 
 
     newEntry->setFrameStyle(QFrame::Box);
     newEntry->setLayout(layout);
-    newEntry->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+    newEntry->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
 
     QLabel* entryUser = new QLabel(newEntry);
     entryUser->setText("Added by: " + (user ? user->m_username : "<invalid user id>"));
@@ -202,7 +198,6 @@ void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget 
     entryContents->setText(entry->m_content);
     entryContents->setWordWrap(true);
     entryContents->setFont(QFont("Segoe", 9));
-    //entryContents->setContentsMargins(0,15,0,15);
     entryTitle->layout()->addWidget(entryContents);
 
     QLabel* entryDate = new QLabel(newEntry);
@@ -210,8 +205,6 @@ void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget 
     entryDate->setAlignment(Qt::AlignRight);
     entryDate->setFont(QFont("Segoe", 7));
     layout->addWidget(entryDate);
-
-    //newEntry->setContentsMargins(50,50,50,50);
 
     wrapper->layout()->setSpacing(30);
     wrapper->layout()->setAlignment(Qt::AlignTop);
@@ -254,7 +247,11 @@ void MainDialog::displayBlog(const Blog *blog, QWidget *wrapper)
     wrapper->layout()->setAlignment(Qt::AlignTop);
     wrapper->layout()->addWidget(blogHeader);
 
-    for(int i=blog->m_entryList->size()-1; i>=0; i--)
+    if(blog->m_entryList->empty())
+    {
+        wrapper->layout()->addWidget(new QLabel("There are no blog entries to display", wrapper));
+    }
+    else for(int i=blog->m_entryList->size()-1; i>=0; i--)
     {
         displayEntry(&blog->m_entryList->at(i), user, wrapper);
     }
