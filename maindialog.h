@@ -50,6 +50,7 @@ private slots:
     void on_lstBlogList_itemSelectionChanged();
     void on_lstAllBlogs_itemSelectionChanged();
     void on_btnCreateEntry_clicked();
+    void on_btnDeleteBlog_clicked();
 };
 
 #endif // MAINDIALOG_H

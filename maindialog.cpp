@@ -96,6 +96,7 @@ void MainDialog::updateBlogList()
 
     ui->lstBlogList->clear();
     ui->cmbBlogList->clear();
+    ui->cmbDeleteBlog->clear();
     ui->lstAllBlogs->clear();
 
     for(int i=blogList->size()-1; i>=0; i--)
@@ -104,6 +105,7 @@ void MainDialog::updateBlogList()
         {
             ui->lstBlogList->addItem(blogList->at(i).m_title);
             ui->cmbBlogList->addItem(blogList->at(i).m_title);
+            ui->cmbDeleteBlog->addItem(blogList->at(i).m_title);
         }
         ui->lstAllBlogs->addItem(blogList->at(i).m_title);
     }
@@ -111,9 +113,12 @@ void MainDialog::updateBlogList()
     {
         ui->lstBlogList->addItem("<you have no blogs>");
         ui->cmbBlogList->addItem("<you have no blogs>");
+        ui->cmbDeleteBlog->addItem("<you have no blogs>");
         ui->cmbBlogList->setEnabled(false);
+        ui->cmbDeleteBlog->setEnabled(false);
         ui->lstBlogList->setEnabled(false);
         ui->btnCreateEntry->setEnabled(false);
+        ui->btnDeleteBlog->setEnabled(false);
         if(ui->lstAllBlogs->count() == 0)
         {
             ui->lstAllBlogs->addItem("<there are no blogs to display>");
@@ -125,8 +130,10 @@ void MainDialog::updateBlogList()
     else
     {
         ui->cmbBlogList->setEnabled(true);
+        ui->cmbDeleteBlog->setEnabled(true);
         ui->lstBlogList->setEnabled(true);
         ui->btnCreateEntry->setEnabled(true);
+        ui->btnDeleteBlog->setEnabled(true);
     }
 }
 
@@ -182,7 +189,6 @@ void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget 
 
     newEntry->setFrameStyle(QFrame::Box);
     newEntry->setLayout(layout);
-    newEntry->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
 
     QLabel* entryUser = new QLabel(newEntry);
     entryUser->setText("Added by: " + (user ? user->m_username : "<invalid user id>"));
@@ -194,6 +200,7 @@ void MainDialog::displayEntry(const BlogEntry* entry, const User* user, QWidget 
     entryTitle->setLayout(new QVBoxLayout(entryTitle));
     entryTitle->setTitle(entry->m_title);
     entryTitle->setFont(QFont("Segoe", 12));
+    entryTitle->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     layout->addWidget(entryTitle);
 
     QLabel* entryContents = new QLabel(entryTitle);
@@ -225,7 +232,6 @@ void MainDialog::displayBlog(const Blog *blog, QWidget *wrapper)
     QFrame* blogHeader = new QFrame(wrapper);
     QVBoxLayout* layout = new QVBoxLayout(blogHeader);
     blogHeader->setLayout(layout);
-    blogHeader->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 
     QLabel* blogTitle = new QLabel(blogHeader);
     blogTitle->setText(blog->m_title);
@@ -257,6 +263,12 @@ void MainDialog::displayBlog(const Blog *blog, QWidget *wrapper)
     {
         displayEntry(&blog->m_entryList->at(i), user, wrapper);
     }
+
+    QFrame* spacer = new QFrame(wrapper);
+    QVBoxLayout* spacerLayout = new QVBoxLayout(spacer);
+    spacer->setLayout(spacerLayout);
+    spacerLayout->addItem(new QSpacerItem(0,0,QSizePolicy::Minimum,QSizePolicy::Expanding));
+    wrapper->layout()->addWidget(spacer);
 }
 
 void MainDialog::clearBlogs(QWidget *wrapper)
@@ -343,5 +355,30 @@ void MainDialog::on_btnCreateEntry_clicked()
     {
         ui->lstBlogList->setCurrentItem(item);
     }
+}
+
+
+void MainDialog::on_btnDeleteBlog_clicked()
+{
+    //const Blog* blog = BlogManager::getBlogByTitle(ui->cmbDeleteBlog->currentText());
+
+    QMessageBox::StandardButton answer = QMessageBox::question(this,"Warning","Are you sure you want to delete blog \""+ui->cmbDeleteBlog->currentText()+"\" and all of its content?");
+
+    if(answer == QMessageBox::No)
+        return;
+
+    QList<Blog>* blogList = BlogManager::getBlogList();
+    for(int i=0; i<blogList->size(); i++)
+    {
+        if(blogList->at(i).m_title == ui->cmbDeleteBlog->currentText())
+        {
+            blogList->removeAt(i);
+        }
+    }
+    BlogManager::saveBlogs();
+    updateBlogList();
+    ui->tabWidget->setCurrentIndex(1);
+
+    clearInputs();
 }
 

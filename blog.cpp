@@ -26,7 +26,7 @@ Blog::Blog(QString blogId, QString ownerId, QString title, QList<BlogEntry>* ent
 
 Blog::~Blog()
 {
-
+    qInfo() << "Deconstructed Blog: " + m_title;
 }
 
 Blog &Blog::operator=(const Blog &blog)
