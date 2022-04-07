@@ -96,15 +96,19 @@ void LoginDialog::on_btnChangeFolder_clicked()
     QString newDataFolder = QFileDialog::getExistingDirectory(this, "Choose another data folder", defaultDataFolder);
     if(newDataFolder.isEmpty())
         return;
-    if(!QFileInfo(newDataFolder, "users.json").isWritable())
+
+    if(!newDataFolder.endsWith('/'))
+        newDataFolder += '/';
+
+    if(!QFileInfo(newDataFolder).isWritable())
     {
         QMessageBox::critical(this, "Error", "This location is not writable!\r\nPlease choose another one!");
         return;
     }
-    settings.setValue("dataDir", newDataFolder+"/");
+    settings.setValue("dataDir", newDataFolder);
     settings.remove("logged");
     UserManager::loadUsers();
     BlogManager::loadBlogs();
-    ui->txtDataDir->setText(newDataFolder+"/");
+    ui->txtDataDir->setText(newDataFolder);
 }
 

@@ -97,15 +97,14 @@ bool UserManager::saveUsers()
     if(!createDirectory(userDir))
         return false;
 
-    QFile userFile = userDir.absoluteFilePath("/users.json");
+    QFile userFile = userDir.absoluteFilePath("users.json");
 
-    if(!QFileInfo(userFile).isWritable())
+    if(!userFile.open(QIODevice::WriteOnly))
     {
         QMessageBox::critical(nullptr, "Error", "Cannot save file users.json!\r\nPlease choose another location!");
+        userFile.close();
         return false;
     }
-
-    userFile.open(QIODevice::WriteOnly);
 
     QTextStream stream(&userFile);
     stream << QJsonDocument(jsonArr).toJson();

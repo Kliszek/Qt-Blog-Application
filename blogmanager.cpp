@@ -76,15 +76,14 @@ bool BlogManager::saveBlogs()
     if(!UserManager::createDirectory(userDir))
         return false;
 
-    QFile blogFile = userDir.absoluteFilePath("/blogs.json");
+    QFile blogFile = userDir.absoluteFilePath("blogs.json");
 
-    if(!QFileInfo(blogFile).isWritable())
+    if(!blogFile.open(QIODevice::WriteOnly))
     {
         QMessageBox::critical(nullptr, "Error", "Cannot save file blogs.json!\r\nPlease choose another location!");
+        blogFile.close();
         return false;
     }
-
-    blogFile.open(QIODevice::WriteOnly);
 
     QTextStream stream(&blogFile);
     stream << QJsonDocument(jsonArr).toJson();
