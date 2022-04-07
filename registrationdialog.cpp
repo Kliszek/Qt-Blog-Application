@@ -107,8 +107,10 @@ void RegistrationDialog::on_btnRegister_clicked()
     User newUser(id, email, username, password);
 
     UserManager::getUserList()->append(newUser);
-    UserManager::saveUsers();
-    QMessageBox::information(this, "Success!", "Account successfully created!");
+    if(UserManager::saveUsers())
+        QMessageBox::information(this, "Success!", "Account successfully created!");
+    else
+        QMessageBox::critical(this, "Error", "Account is saved to the memory, but will be lost when the application is closed!");
     this->close();
 
 }

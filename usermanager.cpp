@@ -45,10 +45,12 @@ bool UserManager::loadUsers()
     QDir userDir;
 
     if(!createDirectory(userDir))
+    {
+        QMessageBox::critical(nullptr, "Error", "Could not create the data folder for json files!\r\nPlease choose another location!");
         return false;
+    }
 
     QFile userFile = userDir.absoluteFilePath("users.json");
-
 
     if(!userFile.exists())
         return true;
@@ -95,7 +97,13 @@ bool UserManager::saveUsers()
     if(!createDirectory(userDir))
         return false;
 
-    QFile userFile = userDir.absolutePath() + "/users.json";
+    QFile userFile = userDir.absoluteFilePath("/users.json");
+
+    if(!QFileInfo(userFile).isWritable())
+    {
+        QMessageBox::critical(nullptr, "Error", "Cannot save file users.json!\r\nPlease choose another location!");
+        return false;
+    }
 
     userFile.open(QIODevice::WriteOnly);
 

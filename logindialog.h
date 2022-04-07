@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QDir>
+#include <QFileInfo>
 #include <QFileDialog>
 #include "user.h"
 

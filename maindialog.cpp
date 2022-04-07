@@ -7,6 +7,7 @@ MainDialog::MainDialog(const User *user, QWidget *loginDialog, QWidget *parent) 
     m_loginDialog = loginDialog;
     ui->lblUsername->setText(m_currentUser->m_username);
     setValidators();
+    BlogManager::loadBlogs();
     updateBlogList();
 }
 
@@ -159,7 +160,9 @@ void MainDialog::on_btnCreateBlog_clicked()
     Blog newBlog(blogId, ownerId, title, new QList<BlogEntry>);
 
     BlogManager::getBlogList()->append(newBlog);
-    BlogManager::saveBlogs();
+    if(!BlogManager::saveBlogs())
+        QMessageBox::critical(this, "Error", "The blog is saved to the memory, but will be lost when the application is closed!");
+
     updateBlogList();
     ui->tabWidget->setCurrentIndex(1);
 
@@ -370,7 +373,8 @@ void MainDialog::on_btnCreateEntry_clicked()
 
     parentBlog->m_entryList->append(newEntry);
 
-    BlogManager::saveBlogs();
+    if(!BlogManager::saveBlogs())
+        QMessageBox::critical(this, "Error", "The entry is saved to the memory, but will be lost when the application is closed!");
     updateBlogList();
     ui->tabWidget->setCurrentIndex(1);
 

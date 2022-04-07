@@ -20,7 +20,6 @@ bool BlogManager::loadBlogs()
 
     QFile blogFile = userDir.absoluteFilePath("blogs.json");
 
-
     if(!blogFile.exists())
         return true;
 
@@ -77,7 +76,13 @@ bool BlogManager::saveBlogs()
     if(!UserManager::createDirectory(userDir))
         return false;
 
-    QFile blogFile = userDir.absolutePath() + "/blogs.json";
+    QFile blogFile = userDir.absoluteFilePath("/blogs.json");
+
+    if(!QFileInfo(blogFile).isWritable())
+    {
+        QMessageBox::critical(nullptr, "Error", "Cannot save file blogs.json!\r\nPlease choose another location!");
+        return false;
+    }
 
     blogFile.open(QIODevice::WriteOnly);
 
