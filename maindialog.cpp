@@ -130,8 +130,6 @@ void MainDialog::updateBlogList()
             ui->lstAllBlogs->addItem("<there are no blogs to display>");
             ui->lstAllBlogs->setEnabled(false);
         }
-        else
-            ui->lstAllBlogs->setEnabled(true);
     }
     else
     {
@@ -140,6 +138,7 @@ void MainDialog::updateBlogList()
         ui->lstBlogList->setEnabled(true);
         ui->btnCreateEntry->setEnabled(true);
         ui->btnDeleteBlog->setEnabled(true);
+        ui->lstAllBlogs->setEnabled(true);
     }
 }
 
