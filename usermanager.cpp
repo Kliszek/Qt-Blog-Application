@@ -50,7 +50,7 @@ bool UserManager::loadUsers()
         return false;
     }
 
-    QFile userFile = userDir.absoluteFilePath("users.json");
+    QFile userFile(userDir.absoluteFilePath("users.json"));
 
     if(!userFile.exists())
         return true;
@@ -97,7 +97,7 @@ bool UserManager::saveUsers()
     if(!createDirectory(userDir))
         return false;
 
-    QFile userFile = userDir.absoluteFilePath("users.json");
+    QFile userFile(userDir.absoluteFilePath("users.json"));
 
     if(!userFile.open(QIODevice::WriteOnly))
     {
