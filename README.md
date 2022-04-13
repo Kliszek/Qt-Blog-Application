@@ -21,6 +21,8 @@ This application was created in Qt Creator 7.0.0 with Qt Widgets.
 
 The code was written in C++.
 
+Application data is stored in files in JSON format.
+
 The build system is CMake.
 
 ### How to use
